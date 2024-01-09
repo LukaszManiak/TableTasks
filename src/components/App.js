@@ -1,12 +1,14 @@
-import { useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 
 const initialState = {
+  tables: [],
   // table todos
   todoTasks: [],
   inProgress: [],
   doneTasks: [],
   //newTaskForm
   newTaskForm: false,
+  newTableForm: false,
   //inputs
 };
 
@@ -14,6 +16,8 @@ function reducer(state, action) {
   switch (action.type) {
     case "newTaskForm":
       return { ...state, newTaskForm: !state.newTaskForm };
+    case "newTableForm":
+      return { ...state, newTableForm: !state.newTableForm };
     // add task
     case "addTask":
       const actionType = action.payload.type;
@@ -35,25 +39,51 @@ function reducer(state, action) {
       } else {
         return state;
       }
+    // add table
+    case "addTable":
+      return { ...state, tables: [...state.tables, action.payload] };
     default:
       throw new Error("Unkown");
   }
 }
 
 function App() {
-  const [{ todoTasks, inProgress, doneTasks, newTaskForm }, dispatch] =
-    useReducer(reducer, initialState);
+  // getting optional data from localStorage
+  const savedData = JSON.parse(localStorage.getItem("data")) || initialState;
+  const [
+    { tables, todoTasks, inProgress, doneTasks, newTaskForm, newTableForm },
+    dispatch,
+  ] = useReducer(reducer, savedData);
+  console.log(tables, todoTasks);
+
+  // setting localStorage
+  useEffect(
+    function () {
+      localStorage.setItem(
+        "data",
+        JSON.stringify({
+          tables,
+          todoTasks,
+          inProgress,
+          doneTasks,
+          newTaskForm,
+        })
+      );
+    },
+    [tables, todoTasks, inProgress, doneTasks, newTaskForm]
+  );
 
   return (
     <div className="app">
       <NavBar dispatch={dispatch} />
-      <AllTables />
+      <AllTables dispatch={dispatch} tables={tables} />
       <Table
         todoTasks={todoTasks}
         inProgress={inProgress}
         doneTasks={doneTasks}
       />
       {newTaskForm && <AddNewTask dispatch={dispatch} />}
+      {newTableForm && <AddNewTable dispatch={dispatch} />}
     </div>
   );
 }
@@ -72,16 +102,18 @@ function NavBar({ dispatch }) {
   );
 }
 
-function AllTables() {
+function AllTables({ dispatch, tables }) {
   return (
     <div className="allTables">
-      <p>ALL TABLES (3)</p>
+      <p>ALL TABLES ({tables?.length})</p>
       <ul>
-        <li>Store website</li>
-        <li>Rebuild project</li>
-        <li>Launch steps</li>
+        {tables?.map((table, i) => (
+          <li key={i}>{table.title}</li>
+        ))}
       </ul>
-      <button>+Add New Table</button>
+      <button onClick={() => dispatch({ type: "newTableForm" })}>
+        +Add New Table
+      </button>
     </div>
   );
 }
@@ -91,19 +123,19 @@ function Table({ todoTasks, inProgress, doneTasks }) {
     <div className="table">
       <h2>Store website</h2>
       <div>
-        <div>TODO (3)</div>
+        <div>TODO ({todoTasks.length})</div>
         {todoTasks.map((task, i) => (
           <TableItem title={task.title} key={i} />
         ))}
       </div>
       <div>
-        <div>IN PROGRESS (6)</div>
+        <div>IN PROGRESS ({inProgress.length})</div>
         {inProgress.map((task, i) => (
           <TableItem title={task.title} key={i} />
         ))}
       </div>
       <div>
-        <div>DONE (9)</div>
+        <div>DONE ({doneTasks.length})</div>
         {doneTasks.map((task, i) => (
           <TableItem title={task.title} key={i} />
         ))}
@@ -148,7 +180,7 @@ function AddNewTask({ dispatch }) {
       title: "",
       description: "",
       type: "",
-      id: Math,
+      // id: Math,
     });
     dispatch({ type: "newTaskForm" });
   }
@@ -181,6 +213,39 @@ function AddNewTask({ dispatch }) {
       </select>
 
       <button onClick={() => handleTaskClear()}>Add Task</button>
+    </div>
+  );
+}
+
+// add new table modal
+function AddNewTable({ dispatch }) {
+  // task state
+  const [table, setTable] = useState({
+    title: "",
+    // id: Math,
+  });
+
+  // handling table input clear
+  function handleTableClear() {
+    // add
+    dispatch({ type: "addTable", payload: table });
+    setTable({
+      title: "",
+    });
+    dispatch({ type: "newTableForm" });
+  }
+
+  return (
+    <div className={"addNewTaskModal"}>
+      <h3>Add New Table</h3>
+      <label>Table Title</label>
+      <input
+        placeholder="Store website things"
+        value={table.title}
+        onChange={(e) => setTable({ title: e.target.value })}
+      />
+
+      <button onClick={() => handleTableClear()}>Add Table</button>
     </div>
   );
 }
