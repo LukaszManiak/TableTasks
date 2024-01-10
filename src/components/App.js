@@ -1,7 +1,9 @@
 import { useEffect, useReducer, useState } from "react";
+import Button from "./Button";
 
 const initialState = {
   tables: [],
+  selectedTable: null,
   // table todos
   todoTasks: [],
   inProgress: [],
@@ -41,7 +43,11 @@ function reducer(state, action) {
       }
     // add table
     case "addTable":
+      if (action.payload.title === "") return state;
       return { ...state, tables: [...state.tables, action.payload] };
+    // table selection
+    case "tableSelection":
+      return { ...state, selectedTable: action.payload };
     default:
       throw new Error("Unkown");
   }
@@ -51,10 +57,18 @@ function App() {
   // getting optional data from localStorage
   const savedData = JSON.parse(localStorage.getItem("data")) || initialState;
   const [
-    { tables, todoTasks, inProgress, doneTasks, newTaskForm, newTableForm },
+    {
+      tables,
+      todoTasks,
+      inProgress,
+      doneTasks,
+      newTaskForm,
+      newTableForm,
+      selectedTable,
+    },
     dispatch,
   ] = useReducer(reducer, savedData);
-  console.log(tables, todoTasks);
+  console.log(selectedTable);
 
   // setting localStorage
   useEffect(
@@ -67,17 +81,23 @@ function App() {
           inProgress,
           doneTasks,
           newTaskForm,
+          selectedTable,
         })
       );
     },
-    [tables, todoTasks, inProgress, doneTasks, newTaskForm]
+    [tables, todoTasks, inProgress, doneTasks, newTaskForm, selectedTable]
   );
 
   return (
     <div className="app">
       <NavBar dispatch={dispatch} />
-      <AllTables dispatch={dispatch} tables={tables} />
+      <AllTables
+        dispatch={dispatch}
+        tables={tables}
+        selectedTable={selectedTable}
+      />
       <Table
+        selectedTable={selectedTable}
         todoTasks={todoTasks}
         inProgress={inProgress}
         doneTasks={doneTasks}
@@ -92,36 +112,44 @@ function NavBar({ dispatch }) {
   return (
     <nav className="navBar">
       <h2>TableTasks</h2>
-      <button
+      <Button
         onClick={() => dispatch({ type: "newTaskForm" })}
         className="addTask"
       >
         +Add New Task
-      </button>
+      </Button>
     </nav>
   );
 }
 
-function AllTables({ dispatch, tables }) {
+function AllTables({ dispatch, tables, selectedTable }) {
   return (
     <div className="allTables">
       <p>ALL TABLES ({tables?.length})</p>
       <ul>
         {tables?.map((table, i) => (
-          <li key={i}>{table.title}</li>
+          <li
+            className={selectedTable === tables[i].title ? "selected" : ""}
+            onClick={() =>
+              dispatch({ type: "tableSelection", payload: tables[i].title })
+            }
+            key={i}
+          >
+            {table.title}
+          </li>
         ))}
       </ul>
-      <button onClick={() => dispatch({ type: "newTableForm" })}>
+      <Button onClick={() => dispatch({ type: "newTableForm" })}>
         +Add New Table
-      </button>
+      </Button>
     </div>
   );
 }
 
-function Table({ todoTasks, inProgress, doneTasks }) {
+function Table({ selectedTable, todoTasks, inProgress, doneTasks }) {
   return (
     <div className="table">
-      <h2>Store website</h2>
+      <h2>{selectedTable}</h2>
       <div>
         <div>TODO ({todoTasks.length})</div>
         {todoTasks.map((task, i) => (
@@ -190,6 +218,7 @@ function AddNewTask({ dispatch }) {
     <div className={"addNewTaskModal"}>
       <h3>Add New Task</h3>
       <label>Title</label>
+      <Button onClick={() => dispatch({ type: "newTaskForm" })}>Close</Button>
       <input
         placeholder="Platform setup"
         value={task.title}
@@ -212,7 +241,7 @@ function AddNewTask({ dispatch }) {
         <option value={"done"}>Done</option>
       </select>
 
-      <button onClick={() => handleTaskClear()}>Add Task</button>
+      <Button onClick={() => handleTaskClear()}>Add Task</Button>
     </div>
   );
 }
@@ -238,6 +267,7 @@ function AddNewTable({ dispatch }) {
   return (
     <div className={"addNewTaskModal"}>
       <h3>Add New Table</h3>
+      <Button onClick={() => dispatch({ type: "newTableForm" })}>Close</Button>
       <label>Table Title</label>
       <input
         placeholder="Store website things"
@@ -245,7 +275,7 @@ function AddNewTable({ dispatch }) {
         onChange={(e) => setTable({ title: e.target.value })}
       />
 
-      <button onClick={() => handleTableClear()}>Add Table</button>
+      <Button onClick={() => handleTableClear()}>Add Table</Button>
     </div>
   );
 }

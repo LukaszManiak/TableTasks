@@ -43,6 +43,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  gap: 10px;
 
   background-color: var(--darkBlue);
 }
@@ -54,7 +55,15 @@ body {
 }
 .allTables ul li {
   margin-right: 10px;
+  cursor: pointer;
 }
+.allTables ul li:hover {
+  background-color: aliceblue;
+}
+.allTables ul li.selected {
+  background-color: red;
+}
+
 .allTables button {
   align-self: flex-start;
   border: none;
