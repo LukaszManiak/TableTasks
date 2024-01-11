@@ -1,50 +1,104 @@
 import { useEffect, useReducer, useState } from "react";
+
+// components
 import Button from "./Button";
+import Message from "./Message";
 
 const initialState = {
+  // tables
   tables: [],
+  // currently selected table
   selectedTable: null,
-  // table todos
-  todoTasks: [],
-  inProgress: [],
-  doneTasks: [],
-  //newTaskForm
-  newTaskForm: false,
-  newTableForm: false,
-  //inputs
+  //isNewTaskOpen
+  isNewTaskOpen: false,
+  isNewTableOpen: false,
 };
 
 function reducer(state, action) {
   switch (action.type) {
-    case "newTaskForm":
-      return { ...state, newTaskForm: !state.newTaskForm };
-    case "newTableForm":
-      return { ...state, newTableForm: !state.newTableForm };
+    //opening task modal form
+    case "newTaskOpen":
+      return { ...state, isNewTaskOpen: !state.isNewTaskOpen };
+    //opening table modal form
+    case "newTableOpen":
+      return { ...state, isNewTableOpen: !state.isNewTableOpen };
     // add task
     case "addTask":
+      // type of the task
       const actionType = action.payload.type;
+      // currently opened table
+      const currTable = state.tables
+        .map((t) => t.title)
+        .indexOf(state.selectedTable);
+
+      // checking for tables and selected table
+      if (!state.tables.length || !state.selectedTable) return state;
+
       if (actionType === "todo") {
+        // iterating through all tables and adding given task only to the opened one
         return {
           ...state,
-          todoTasks: [...state.todoTasks, action.payload],
+          tables: state.tables.map((table, i) => {
+            if (i === currTable) {
+              return {
+                ...table,
+                todoTasks: [...table.todoTasks, action.payload],
+              };
+            }
+            return table;
+          }),
         };
       } else if (actionType === "inprogress") {
         return {
           ...state,
-          inProgress: [...state.inProgress, action.payload],
+          tables: state.tables.map((table, i) => {
+            if (i === currTable) {
+              return {
+                ...table,
+                inProgress: [...table.inProgress, action.payload],
+              };
+            }
+            return table;
+          }),
         };
       } else if (actionType === "done") {
         return {
           ...state,
-          doneTasks: [...state.doneTasks, action.payload],
+          tables: state.tables.map((table, i) => {
+            if (i === currTable) {
+              return {
+                ...table,
+                doneTasks: [...table.doneTasks, action.payload],
+              };
+            }
+            return table;
+          }),
         };
       } else {
         return state;
       }
+
     // add table
     case "addTable":
+      // if the title input is empty return
       if (action.payload.title === "") return state;
-      return { ...state, tables: [...state.tables, action.payload] };
+      // if there is already table with the same name return
+      if (state.tables.map((t) => t.title).includes(action.payload.title))
+        return state;
+      // returning table with the given title and tasks array
+      return {
+        ...state,
+        tables: [
+          ...state.tables,
+          {
+            title: action.payload.title,
+            // table todos
+            todoTasks: [],
+            inProgress: [],
+            doneTasks: [],
+          },
+        ],
+      };
     // table selection
     case "tableSelection":
       return { ...state, selectedTable: action.payload };
@@ -54,21 +108,21 @@ function reducer(state, action) {
 }
 
 function App() {
-  // getting optional data from localStorage
+  // getting optional data from localStorage / initial state
   const savedData = JSON.parse(localStorage.getItem("data")) || initialState;
-  const [
-    {
-      tables,
-      todoTasks,
-      inProgress,
-      doneTasks,
-      newTaskForm,
-      newTableForm,
-      selectedTable,
+  const [{ tables, isNewTaskOpen, isNewTableOpen, selectedTable }, dispatch] =
+    useReducer(reducer, savedData);
+
+  // effect that selects the newly created table
+  useEffect(
+    function () {
+      dispatch({
+        type: "tableSelection",
+        payload: tables[tables.length - 1]?.title,
+      });
     },
-    dispatch,
-  ] = useReducer(reducer, savedData);
-  console.log(selectedTable);
+    [tables.length]
+  );
 
   // setting localStorage
   useEffect(
@@ -77,15 +131,13 @@ function App() {
         "data",
         JSON.stringify({
           tables,
-          todoTasks,
-          inProgress,
-          doneTasks,
-          newTaskForm,
+          isNewTaskOpen,
+          isNewTableOpen,
           selectedTable,
         })
       );
     },
-    [tables, todoTasks, inProgress, doneTasks, newTaskForm, selectedTable]
+    [tables, isNewTaskOpen, selectedTable, isNewTableOpen]
   );
 
   return (
@@ -96,14 +148,9 @@ function App() {
         tables={tables}
         selectedTable={selectedTable}
       />
-      <Table
-        selectedTable={selectedTable}
-        todoTasks={todoTasks}
-        inProgress={inProgress}
-        doneTasks={doneTasks}
-      />
-      {newTaskForm && <AddNewTask dispatch={dispatch} />}
-      {newTableForm && <AddNewTable dispatch={dispatch} />}
+      <Table tables={tables} selectedTable={selectedTable} />
+      {isNewTaskOpen && <AddNewTask dispatch={dispatch} />}
+      {isNewTableOpen && <AddNewTable dispatch={dispatch} tables={tables} />}
     </div>
   );
 }
@@ -113,7 +160,7 @@ function NavBar({ dispatch }) {
     <nav className="navBar">
       <h2>TableTasks</h2>
       <Button
-        onClick={() => dispatch({ type: "newTaskForm" })}
+        onClick={() => dispatch({ type: "newTaskOpen" })}
         className="addTask"
       >
         +Add New Task
@@ -127,7 +174,7 @@ function AllTables({ dispatch, tables, selectedTable }) {
     <div className="allTables">
       <p>ALL TABLES ({tables?.length})</p>
       <ul>
-        {tables?.map((table, i) => (
+        {tables.map((table, i) => (
           <li
             className={selectedTable === tables[i].title ? "selected" : ""}
             onClick={() =>
@@ -139,35 +186,46 @@ function AllTables({ dispatch, tables, selectedTable }) {
           </li>
         ))}
       </ul>
-      <Button onClick={() => dispatch({ type: "newTableForm" })}>
+      <Button onClick={() => dispatch({ type: "newTableOpen" })}>
         +Add New Table
       </Button>
     </div>
   );
 }
 
-function Table({ selectedTable, todoTasks, inProgress, doneTasks }) {
+function Table({ selectedTable, tables }) {
+  const tableIndex = tables.findIndex((t) => t.title === selectedTable);
+
   return (
     <div className="table">
-      <h2>{selectedTable}</h2>
-      <div>
-        <div>TODO ({todoTasks.length})</div>
-        {todoTasks.map((task, i) => (
-          <TableItem title={task.title} key={i} />
-        ))}
-      </div>
-      <div>
-        <div>IN PROGRESS ({inProgress.length})</div>
-        {inProgress.map((task, i) => (
-          <TableItem title={task.title} key={i} />
-        ))}
-      </div>
-      <div>
-        <div>DONE ({doneTasks.length})</div>
-        {doneTasks.map((task, i) => (
-          <TableItem title={task.title} key={i} />
-        ))}
-      </div>
+      {!selectedTable && (
+        <Message
+          message={"Make a table and start adding your tasks!"}
+        ></Message>
+      )}
+      {selectedTable && (
+        <>
+          <h2>{selectedTable}</h2>
+          <div>
+            <div>TODO ({tables[tableIndex].todoTasks.length || 0})</div>
+            {tables[tableIndex].todoTasks.map((task, i) => (
+              <TableItem title={task.title} key={i} />
+            ))}
+          </div>
+          <div>
+            <div>IN PROGRESS ({tables[tableIndex].inProgress.length || 0})</div>
+            {tables[tableIndex].inProgress.map((task, i) => (
+              <TableItem title={task.title} key={i} />
+            ))}
+          </div>
+          <div>
+            <div>DONE ({tables[tableIndex].doneTasks.length || 0})</div>
+            {tables[tableIndex].doneTasks.map((task, i) => (
+              <TableItem title={task.title} key={i} />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }
@@ -197,20 +255,23 @@ function AddNewTask({ dispatch }) {
     title: "",
     description: "",
     type: "",
-    id: Math,
+    // id: Math,
   });
 
   // handling task inputs clear
   function handleTaskClear() {
-    // add
+    // add task
     dispatch({ type: "addTask", payload: task });
+
+    // reset task state
     setTask({
       title: "",
       description: "",
       type: "",
       // id: Math,
     });
-    dispatch({ type: "newTaskForm" });
+    // close task modal form
+    dispatch({ type: "newTaskOpen" });
   }
 
   // console.log(task);
@@ -218,7 +279,6 @@ function AddNewTask({ dispatch }) {
     <div className={"addNewTaskModal"}>
       <h3>Add New Task</h3>
       <label>Title</label>
-      <Button onClick={() => dispatch({ type: "newTaskForm" })}>Close</Button>
       <input
         placeholder="Platform setup"
         value={task.title}
@@ -240,14 +300,16 @@ function AddNewTask({ dispatch }) {
         <option value={"inprogress"}>In progress</option>
         <option value={"done"}>Done</option>
       </select>
-
-      <Button onClick={() => handleTaskClear()}>Add Task</Button>
+      <div className="modaButtonsContainer">
+        <Button onClick={() => handleTaskClear()}>Add Task</Button>
+        <Button onClick={() => dispatch({ type: "newTaskOpen" })}>Close</Button>
+      </div>
     </div>
   );
 }
 
 // add new table modal
-function AddNewTable({ dispatch }) {
+function AddNewTable({ dispatch, tables }) {
   // task state
   const [table, setTable] = useState({
     title: "",
@@ -258,24 +320,30 @@ function AddNewTable({ dispatch }) {
   function handleTableClear() {
     // add
     dispatch({ type: "addTable", payload: table });
+    // reset table state
     setTable({
       title: "",
     });
-    dispatch({ type: "newTableForm" });
+    // close table modal form
+    dispatch({ type: "newTableOpen" });
   }
 
   return (
     <div className={"addNewTaskModal"}>
       <h3>Add New Table</h3>
-      <Button onClick={() => dispatch({ type: "newTableForm" })}>Close</Button>
+      <Button onClick={() => dispatch({ type: "newTableOpen" })}>Close</Button>
       <label>Table Title</label>
       <input
         placeholder="Store website things"
         value={table.title}
         onChange={(e) => setTable({ title: e.target.value })}
       />
-
-      <Button onClick={() => handleTableClear()}>Add Table</Button>
+      <div className="modaButtonsContainer">
+        <Button onClick={() => handleTableClear()}>Add Table</Button>
+        <Button onClick={() => dispatch({ type: "newTableOpen" })}>
+          Close
+        </Button>
+      </div>
     </div>
   );
 }
