@@ -12,6 +12,10 @@ const initialState = {
   //isNewTaskOpen
   isNewTaskOpen: false,
   isNewTableOpen: false,
+
+  // task selection
+  isTaskSelected: false,
+  currTask: null,
 };
 
 function reducer(state, action) {
@@ -102,6 +106,14 @@ function reducer(state, action) {
     // table selection
     case "tableSelection":
       return { ...state, selectedTable: action.payload };
+
+    // selected task details open
+    case "taskSelection":
+      return {
+        ...state,
+        isTaskSelected: !state.isTaskSelected,
+        currTask: action.payload,
+      };
     default:
       throw new Error("Unkown");
   }
@@ -110,8 +122,17 @@ function reducer(state, action) {
 function App() {
   // getting optional data from localStorage / initial state
   const savedData = JSON.parse(localStorage.getItem("data")) || initialState;
-  const [{ tables, isNewTaskOpen, isNewTableOpen, selectedTable }, dispatch] =
-    useReducer(reducer, savedData);
+  const [
+    {
+      tables,
+      isNewTaskOpen,
+      isNewTableOpen,
+      selectedTable,
+      isTaskSelected,
+      currTask,
+    },
+    dispatch,
+  ] = useReducer(reducer, savedData);
 
   // effect that selects the newly created table
   useEffect(
@@ -134,10 +155,20 @@ function App() {
           isNewTaskOpen,
           isNewTableOpen,
           selectedTable,
+
+          isTaskSelected,
+          currTask,
         })
       );
     },
-    [tables, isNewTaskOpen, selectedTable, isNewTableOpen]
+    [
+      tables,
+      isNewTaskOpen,
+      selectedTable,
+      isNewTableOpen,
+      isTaskSelected,
+      currTask,
+    ]
   );
 
   return (
@@ -148,9 +179,14 @@ function App() {
         tables={tables}
         selectedTable={selectedTable}
       />
-      <Table tables={tables} selectedTable={selectedTable} />
+      <Table
+        tables={tables}
+        selectedTable={selectedTable}
+        dispatch={dispatch}
+      />
       {isNewTaskOpen && <AddNewTask dispatch={dispatch} />}
       {isNewTableOpen && <AddNewTable dispatch={dispatch} tables={tables} />}
+      {isTaskSelected && <TaskBox dispatch={dispatch} />}
     </div>
   );
 }
@@ -193,7 +229,7 @@ function AllTables({ dispatch, tables, selectedTable }) {
   );
 }
 
-function Table({ selectedTable, tables }) {
+function Table({ selectedTable, tables, dispatch }) {
   const tableIndex = tables.findIndex((t) => t.title === selectedTable);
 
   return (
@@ -209,19 +245,19 @@ function Table({ selectedTable, tables }) {
           <div>
             <div>TODO ({tables[tableIndex].todoTasks.length || 0})</div>
             {tables[tableIndex].todoTasks.map((task, i) => (
-              <TableItem title={task.title} key={i} />
+              <TableItem dispatch={dispatch} title={task.title} key={i} />
             ))}
           </div>
           <div>
             <div>IN PROGRESS ({tables[tableIndex].inProgress.length || 0})</div>
             {tables[tableIndex].inProgress.map((task, i) => (
-              <TableItem title={task.title} key={i} />
+              <TableItem dispatch={dispatch} title={task.title} key={i} />
             ))}
           </div>
           <div>
             <div>DONE ({tables[tableIndex].doneTasks.length || 0})</div>
             {tables[tableIndex].doneTasks.map((task, i) => (
-              <TableItem title={task.title} key={i} />
+              <TableItem dispatch={dispatch} title={task.title} key={i} />
             ))}
           </div>
         </>
@@ -230,20 +266,27 @@ function Table({ selectedTable, tables }) {
   );
 }
 
-function TableItem({ title, dispatch, tasks }) {
+function TableItem({ title, dispatch }) {
   return (
-    <div className="taskBox">
+    <div
+      className="tableItem"
+      onClick={() => dispatch({ type: "taskSelection", payload: "" })}
+      // onClick={() => console.log()}
+    >
       <p>{title}</p>
       {/* <p>0 of 3 done</p> */}
     </div>
   );
 }
 
-function TaskBox({ title, description }) {
+function TaskBox({ title, description, dispatch }) {
   return (
     <div className="taskBox">
       <p>{title}</p>
       <p>{description}</p>
+      <button onClick={() => dispatch({ type: "taskSelection", payload: "" })}>
+        X
+      </button>
     </div>
   );
 }
@@ -259,7 +302,7 @@ function AddNewTask({ dispatch }) {
   });
 
   // handling task inputs clear
-  function handleTaskClear() {
+  function handleTaskSubmit() {
     // add task
     dispatch({ type: "addTask", payload: task });
 
@@ -301,7 +344,7 @@ function AddNewTask({ dispatch }) {
         <option value={"done"}>Done</option>
       </select>
       <div className="modaButtonsContainer">
-        <Button onClick={() => handleTaskClear()}>Add Task</Button>
+        <Button onClick={() => handleTaskSubmit()}>Add Task</Button>
         <Button onClick={() => dispatch({ type: "newTaskOpen" })}>Close</Button>
       </div>
     </div>
@@ -317,7 +360,7 @@ function AddNewTable({ dispatch, tables }) {
   });
 
   // handling table input clear
-  function handleTableClear() {
+  function handleTableSubmit() {
     // add
     dispatch({ type: "addTable", payload: table });
     // reset table state
@@ -339,7 +382,7 @@ function AddNewTable({ dispatch, tables }) {
         onChange={(e) => setTable({ title: e.target.value })}
       />
       <div className="modaButtonsContainer">
-        <Button onClick={() => handleTableClear()}>Add Table</Button>
+        <Button onClick={() => handleTableSubmit()}>Add Table</Button>
         <Button onClick={() => dispatch({ type: "newTableOpen" })}>
           Close
         </Button>
