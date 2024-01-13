@@ -1,197 +1,28 @@
-import { useEffect, useReducer, useState } from "react";
+import { useState } from "react";
 
 // components
 import Button from "./Button";
 import Message from "./Message";
-
-const initialState = {
-  // tables
-  tables: [],
-  // currently selected table
-  selectedTable: null,
-  //isNewTaskOpen
-  isNewTaskOpen: false,
-  isNewTableOpen: false,
-
-  // task selection
-  isTaskSelected: false,
-  currTask: null,
-};
-
-function reducer(state, action) {
-  switch (action.type) {
-    //opening task modal form
-    case "newTaskOpen":
-      return { ...state, isNewTaskOpen: !state.isNewTaskOpen };
-    //opening table modal form
-    case "newTableOpen":
-      return { ...state, isNewTableOpen: !state.isNewTableOpen };
-    // add task
-    case "addTask":
-      // type of the task
-      const actionType = action.payload.type;
-      // currently opened table
-      const currTable = state.tables
-        .map((t) => t.title)
-        .indexOf(state.selectedTable);
-
-      // checking for tables and selected table
-      if (!state.tables.length || !state.selectedTable) return state;
-
-      if (actionType === "todo") {
-        // iterating through all tables and adding given task only to the opened one
-        return {
-          ...state,
-          tables: state.tables.map((table, i) => {
-            if (i === currTable) {
-              return {
-                ...table,
-                todoTasks: [...table.todoTasks, action.payload],
-              };
-            }
-            return table;
-          }),
-        };
-      } else if (actionType === "inprogress") {
-        return {
-          ...state,
-          tables: state.tables.map((table, i) => {
-            if (i === currTable) {
-              return {
-                ...table,
-                inProgress: [...table.inProgress, action.payload],
-              };
-            }
-            return table;
-          }),
-        };
-      } else if (actionType === "done") {
-        return {
-          ...state,
-          tables: state.tables.map((table, i) => {
-            if (i === currTable) {
-              return {
-                ...table,
-                doneTasks: [...table.doneTasks, action.payload],
-              };
-            }
-            return table;
-          }),
-        };
-      } else {
-        return state;
-      }
-
-    // add table
-    case "addTable":
-      // if the title input is empty return
-      if (action.payload.title === "") return state;
-      // if there is already table with the same name return
-      if (state.tables.map((t) => t.title).includes(action.payload.title))
-        return state;
-      // returning table with the given title and tasks array
-      return {
-        ...state,
-        tables: [
-          ...state.tables,
-          {
-            title: action.payload.title,
-            // table todos
-            todoTasks: [],
-            inProgress: [],
-            doneTasks: [],
-          },
-        ],
-      };
-    // table selection
-    case "tableSelection":
-      return { ...state, selectedTable: action.payload };
-
-    // selected task details open
-    case "taskSelection":
-      return {
-        ...state,
-        isTaskSelected: !state.isTaskSelected,
-        currTask: action.payload,
-      };
-    default:
-      throw new Error("Unkown");
-  }
-}
+import { useTable } from "../contexts/TableContext";
 
 function App() {
-  // getting optional data from localStorage / initial state
-  const savedData = JSON.parse(localStorage.getItem("data")) || initialState;
-  const [
-    {
-      tables,
-      isNewTaskOpen,
-      isNewTableOpen,
-      selectedTable,
-      isTaskSelected,
-      currTask,
-    },
-    dispatch,
-  ] = useReducer(reducer, savedData);
-
-  // effect that selects the newly created table
-  useEffect(
-    function () {
-      dispatch({
-        type: "tableSelection",
-        payload: tables[tables.length - 1]?.title,
-      });
-    },
-    [tables.length]
-  );
-
-  // setting localStorage
-  useEffect(
-    function () {
-      localStorage.setItem(
-        "data",
-        JSON.stringify({
-          tables,
-          isNewTaskOpen,
-          isNewTableOpen,
-          selectedTable,
-
-          isTaskSelected,
-          currTask,
-        })
-      );
-    },
-    [
-      tables,
-      isNewTaskOpen,
-      selectedTable,
-      isNewTableOpen,
-      isTaskSelected,
-      currTask,
-    ]
-  );
+  const { isNewTaskOpen, isNewTableOpen, isTaskSelected } = useTable();
 
   return (
     <div className="app">
-      <NavBar dispatch={dispatch} />
-      <AllTables
-        dispatch={dispatch}
-        tables={tables}
-        selectedTable={selectedTable}
-      />
-      <Table
-        tables={tables}
-        selectedTable={selectedTable}
-        dispatch={dispatch}
-      />
-      {isNewTaskOpen && <AddNewTask dispatch={dispatch} />}
-      {isNewTableOpen && <AddNewTable dispatch={dispatch} tables={tables} />}
-      {isTaskSelected && <TaskBox dispatch={dispatch} />}
+      <NavBar />
+      <AllTables />
+      <Table />
+      {isNewTaskOpen && <AddNewTask />}
+      {isNewTableOpen && <AddNewTable />}
+      {isTaskSelected && <TaskBox />}
     </div>
   );
 }
 
-function NavBar({ dispatch }) {
+function NavBar() {
+  const { dispatch } = useTable();
+
   return (
     <nav className="navBar">
       <h2>TableTasks</h2>
@@ -205,7 +36,8 @@ function NavBar({ dispatch }) {
   );
 }
 
-function AllTables({ dispatch, tables, selectedTable }) {
+function AllTables() {
+  const { dispatch, tables, selectedTable } = useTable();
   return (
     <div className="allTables">
       <p>ALL TABLES ({tables?.length})</p>
@@ -229,7 +61,9 @@ function AllTables({ dispatch, tables, selectedTable }) {
   );
 }
 
-function Table({ selectedTable, tables, dispatch }) {
+function Table() {
+  const { selectedTable, tables, dispatch } = useTable();
+
   const tableIndex = tables.findIndex((t) => t.title === selectedTable);
 
   return (
@@ -245,19 +79,19 @@ function Table({ selectedTable, tables, dispatch }) {
           <div>
             <div>TODO ({tables[tableIndex].todoTasks.length || 0})</div>
             {tables[tableIndex].todoTasks.map((task, i) => (
-              <TableItem dispatch={dispatch} title={task.title} key={i} />
+              <TableItem title={task.title} key={i} />
             ))}
           </div>
           <div>
             <div>IN PROGRESS ({tables[tableIndex].inProgress.length || 0})</div>
             {tables[tableIndex].inProgress.map((task, i) => (
-              <TableItem dispatch={dispatch} title={task.title} key={i} />
+              <TableItem title={task.title} key={i} />
             ))}
           </div>
           <div>
             <div>DONE ({tables[tableIndex].doneTasks.length || 0})</div>
             {tables[tableIndex].doneTasks.map((task, i) => (
-              <TableItem dispatch={dispatch} title={task.title} key={i} />
+              <TableItem title={task.title} key={i} />
             ))}
           </div>
         </>
@@ -266,7 +100,8 @@ function Table({ selectedTable, tables, dispatch }) {
   );
 }
 
-function TableItem({ title, dispatch }) {
+function TableItem({ title }) {
+  const { dispatch } = useTable();
   return (
     <div
       className="tableItem"
@@ -279,7 +114,8 @@ function TableItem({ title, dispatch }) {
   );
 }
 
-function TaskBox({ title, description, dispatch }) {
+function TaskBox() {
+  const { title, description, dispatch } = useTable();
   return (
     <div className="taskBox">
       <p>{title}</p>
@@ -292,7 +128,8 @@ function TaskBox({ title, description, dispatch }) {
 }
 
 // add new task modal
-function AddNewTask({ dispatch }) {
+function AddNewTask() {
+  const { dispatch } = useTable();
   // task state
   const [task, setTask] = useState({
     title: "",
@@ -352,7 +189,8 @@ function AddNewTask({ dispatch }) {
 }
 
 // add new table modal
-function AddNewTable({ dispatch, tables }) {
+function AddNewTable() {
+  const { tables, dispatch } = useTable();
   // task state
   const [table, setTable] = useState({
     title: "",
