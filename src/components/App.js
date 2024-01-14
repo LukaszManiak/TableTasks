@@ -16,6 +16,9 @@ function App() {
       {isNewTaskOpen && <AddNewTask />}
       {isNewTableOpen && <AddNewTable />}
       {isTaskSelected && <TaskBox />}
+      {(isNewTableOpen || isNewTaskOpen || isTaskSelected) && (
+        <div className="dark-bg"></div>
+      )}
     </div>
   );
 }
@@ -79,19 +82,19 @@ function Table() {
           <div>
             <div>TODO ({tables[tableIndex].todoTasks.length || 0})</div>
             {tables[tableIndex].todoTasks.map((task, i) => (
-              <TableItem title={task.title} key={i} />
+              <TableItem task={task} key={i} />
             ))}
           </div>
           <div>
             <div>IN PROGRESS ({tables[tableIndex].inProgress.length || 0})</div>
             {tables[tableIndex].inProgress.map((task, i) => (
-              <TableItem title={task.title} key={i} />
+              <TableItem task={task} key={i} />
             ))}
           </div>
           <div>
             <div>DONE ({tables[tableIndex].doneTasks.length || 0})</div>
             {tables[tableIndex].doneTasks.map((task, i) => (
-              <TableItem title={task.title} key={i} />
+              <TableItem task={task} key={i} />
             ))}
           </div>
         </>
@@ -100,28 +103,39 @@ function Table() {
   );
 }
 
-function TableItem({ title }) {
+function TableItem({ task }) {
   const { dispatch } = useTable();
   return (
     <div
       className="tableItem"
-      onClick={() => dispatch({ type: "taskSelection", payload: "" })}
-      // onClick={() => console.log()}
+      onClick={() => dispatch({ type: "taskSelection", payload: task })}
+      // onClick={() => console.log(task)}
     >
-      <p>{title}</p>
+      <p>{task.title}</p>
       {/* <p>0 of 3 done</p> */}
     </div>
   );
 }
 
 function TaskBox() {
-  const { title, description, dispatch } = useTable();
+  const { currTask, tables, selectedTable, dispatch } = useTable();
   return (
     <div className="taskBox">
-      <p>{title}</p>
-      <p>{description}</p>
-      <button onClick={() => dispatch({ type: "taskSelection", payload: "" })}>
-        X
+      <h2>{currTask.title}</h2>
+      <p>{currTask.description}</p>
+      <button onClick={() => dispatch({ type: "taskSelection" })}>X</button>
+      <button
+      // onClick={() => dispatch({ type: "deleteTask", payload: "" })}
+      // log to the console filtered array
+      // onClick={() => {
+      //   console.log(
+      //     tables
+      //       .filter((t) => t.title === selectedTable)[0]
+      //       .todoTasks.filter((task) => task.id !== currTask.id)
+      //   );
+      // }}
+      >
+        Delete task
       </button>
     </div>
   );
@@ -135,7 +149,7 @@ function AddNewTask() {
     title: "",
     description: "",
     type: "",
-    // id: Math,
+    id: new Date().getTime(),
   });
 
   // handling task inputs clear
@@ -148,7 +162,7 @@ function AddNewTask() {
       title: "",
       description: "",
       type: "",
-      // id: Math,
+      id: "",
     });
     // close task modal form
     dispatch({ type: "newTaskOpen" });
@@ -212,7 +226,7 @@ function AddNewTable() {
   return (
     <div className={"addNewTaskModal"}>
       <h3>Add New Table</h3>
-      <Button onClick={() => dispatch({ type: "newTableOpen" })}>Close</Button>
+
       <label>Table Title</label>
       <input
         placeholder="Store website things"

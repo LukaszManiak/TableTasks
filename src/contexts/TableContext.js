@@ -113,6 +113,14 @@ function reducer(state, action) {
         isTaskSelected: !state.isTaskSelected,
         currTask: action.payload,
       };
+    // deleting task
+    // case "taskDelete":
+    //   const [dType, dId] = action.payload;
+    //
+    //   return {
+    //     state,
+    //   };
+
     default:
       throw new Error("Unkown");
   }
