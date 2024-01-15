@@ -29,12 +29,20 @@ function NavBar() {
   return (
     <nav className="navBar">
       <h2>TableTasks</h2>
-      <Button
-        onClick={() => dispatch({ type: "newTaskOpen" })}
-        className="addTask"
-      >
-        +Add New Task
-      </Button>
+      <div>
+        <Button
+          onClick={() => dispatch({ type: "newTaskOpen" })}
+          className="addTask"
+        >
+          +Add New Task
+        </Button>
+        <Button
+          onClick={() => dispatch({ type: "restartApp" })}
+          className="restartApp"
+        >
+          Restart app
+        </Button>
+      </div>
     </nav>
   );
 }
@@ -53,7 +61,12 @@ function AllTables() {
             }
             key={i}
           >
-            {table.title}
+            <p>{table.title}</p>
+            <button
+              onClick={() => dispatch({ type: "tableDelete", payload: table })}
+            >
+              X
+            </button>
           </li>
         ))}
       </ul>
@@ -125,15 +138,7 @@ function TaskBox() {
       <p>{currTask.description}</p>
       <button onClick={() => dispatch({ type: "taskSelection" })}>X</button>
       <button
-      // onClick={() => dispatch({ type: "deleteTask", payload: "" })}
-      // log to the console filtered array
-      // onClick={() => {
-      //   console.log(
-      //     tables
-      //       .filter((t) => t.title === selectedTable)[0]
-      //       .todoTasks.filter((task) => task.id !== currTask.id)
-      //   );
-      // }}
+        onClick={() => dispatch({ type: "taskDelete", payload: currTask })}
       >
         Delete task
       </button>
@@ -208,7 +213,6 @@ function AddNewTable() {
   // task state
   const [table, setTable] = useState({
     title: "",
-    // id: Math,
   });
 
   // handling table input clear

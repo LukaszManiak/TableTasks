@@ -83,18 +83,20 @@ function reducer(state, action) {
 
     // add table
     case "addTable":
+      const { title: tableTitle } = action.payload;
+      console.log(action.payload);
       // if the title input is empty return
-      if (action.payload.title === "") return state;
+      if (tableTitle === "") return state;
       // if there is already table with the same name return
-      if (state.tables.map((t) => t.title).includes(action.payload.title))
-        return state;
+      if (state.tables.map((t) => t.title).includes(tableTitle)) return state;
       // returning table with the given title and tasks array
       return {
         ...state,
         tables: [
           ...state.tables,
           {
-            title: action.payload.title,
+            title: tableTitle,
+
             // table todos
             todoTasks: [],
             inProgress: [],
@@ -114,13 +116,75 @@ function reducer(state, action) {
         currTask: action.payload,
       };
     // deleting task
-    // case "taskDelete":
-    //   const [dType, dId] = action.payload;
-    //
-    //   return {
-    //     state,
-    //   };
+    case "taskDelete":
+      const { type, id } = action.payload;
 
+      const selectedTable = state.tables.find(
+        (t) => t.title === state.selectedTable
+      );
+      // return state if there is no selected table
+      if (!selectedTable) {
+        return state;
+      }
+      // checking type of the table task
+      if (type === "todo") {
+        // deleting selected task from the todoTasks
+        const updatedTodoTasks = selectedTable.todoTasks.filter(
+          (task) => task.id !== id
+        );
+
+        // setting state
+        return {
+          ...state,
+          isTaskSelected: false,
+          tables: state.tables.map((table) =>
+            table.title === state.selectedTable
+              ? { ...table, todoTasks: updatedTodoTasks }
+              : table
+          ),
+        };
+      } else if (type === "inprogress") {
+        // deleting selected task from the inprogress Tasks
+        const updatedInProgressTasks = selectedTable.inProgress.filter(
+          (task) => task.id !== id
+        );
+
+        // setting state
+        return {
+          ...state,
+          isTaskSelected: false,
+          tables: state.tables.map((table) =>
+            table.title === state.selectedTable
+              ? { ...table, inProgress: updatedInProgressTasks }
+              : table
+          ),
+        };
+      } else if (type === "done") {
+        // deleting selected task from the Done Tasks
+        const updatedDoneTasks = selectedTable.doneTasks.filter(
+          (task) => task.id !== id
+        );
+
+        // setting state
+        return {
+          ...state,
+          isTaskSelected: false,
+          tables: state.tables.map((table) =>
+            table.title === state.selectedTable
+              ? { ...table, doneTasks: updatedDoneTasks }
+              : table
+          ),
+        };
+      } else {
+        return state;
+      }
+    // case "tableDelete":
+    //   const { id: tableID } = action.payload;
+    //   console.log(action.payload, tableID);
+
+    //   return { ...state };
+    case "restartApp":
+      return { ...initialState };
     default:
       throw new Error("Unkown");
   }
@@ -149,7 +213,7 @@ function TableProvider({ children }) {
         payload: tables[tables.length - 1]?.title,
       });
     },
-    [tables.length]
+    [tables]
   );
 
   // setting localStorage

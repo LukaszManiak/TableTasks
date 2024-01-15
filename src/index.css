@@ -58,16 +58,21 @@ body {
   cursor: pointer;
   text-align: center;
 
+  display: flex;
+  align-items: center;
+  gap: 10px;
   padding: 10px 30px;
   border: none;
   border-radius: 15px;
   transition: all ease-in-out 0.15s;
 }
-.allTables ul li:hover {
+.allTables ul li:hover,
+.allTables ul li:hover button {
   background-color: var(--veryLightGray);
   color: var(--veryDarkBlue);
 }
-.allTables ul li.selected {
+.allTables ul li.selected,
+.allTables ul li.selected button {
   background-color: var(--seaBlue);
   color: var(--white);
 }
