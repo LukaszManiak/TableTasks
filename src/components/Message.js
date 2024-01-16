@@ -1,3 +1,5 @@
+import styles from "./Message.module.css";
+
 export default function Message({ message, className }) {
-  return <h1 className={className}>{message}</h1>;
+  return <h1 className={styles[className]}>{message}</h1>;
 }

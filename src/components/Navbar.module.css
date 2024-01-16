@@ -1,0 +1,23 @@
+.navBar {
+  height: 10%;
+  padding: 0 10%;
+
+  border-bottom: solid 1px var(--veryDarkBlue);
+  background-color: var(--darkBlue);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@media (max-width: 968px) {
+  .navBar {
+    height: auto;
+    padding: 5% 5%;
+    gap: 10px;
+
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+}

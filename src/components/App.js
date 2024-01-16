@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useTable } from "../contexts/TableContext";
 
 // components
 import Button from "./Button";
 import Message from "./Message";
-import { useTable } from "../contexts/TableContext";
+import AddNewTable from "./AddNewTable";
+import NavBar from "./Navbar";
 
 function App() {
   const { isNewTaskOpen, isNewTableOpen, isTaskSelected } = useTable();
@@ -20,36 +22,6 @@ function App() {
         <div className="dark-bg"></div>
       )}
     </div>
-  );
-}
-
-function NavBar() {
-  const { dispatch } = useTable();
-
-  return (
-    <nav className="navBar">
-      <h2>TableTasks</h2>
-      <div className="navButtons">
-        <Button
-          onClick={() => dispatch({ type: "newTaskOpen" })}
-          className="addTask"
-        >
-          +Add New Task
-        </Button>
-        <Button
-          onClick={() => dispatch({ type: "restartApp" })}
-          className="restartApp"
-        >
-          Restart app
-        </Button>
-        <Button
-          onClick={() => dispatch({ type: "toggleMode" })}
-          className="modeToggle"
-        >
-          Mode
-        </Button>
-      </div>
-    </nav>
   );
 }
 
@@ -234,62 +206,6 @@ function AddNewTask() {
         <Button
           className="closeButton"
           onClick={() => dispatch({ type: "newTaskOpen" })}
-        >
-          Close
-        </Button>
-      </div>
-    </div>
-  );
-}
-
-// add new table modal
-function AddNewTable() {
-  const { tables, dispatch } = useTable();
-  // task state
-  const [table, setTable] = useState({
-    title: "",
-    id: new Date().getTime(),
-    // table todos
-    todoTasks: [],
-    inProgress: [],
-    doneTasks: [],
-  });
-
-  console.log(table);
-  // handling table input clear
-  function handleTableSubmit() {
-    // add
-    dispatch({ type: "addTable", payload: table });
-    // reset table state
-    setTable({
-      title: "",
-      id: "",
-      // table todos
-      todoTasks: [],
-      inProgress: [],
-      doneTasks: [],
-    });
-    // close table modal form
-    dispatch({ type: "newTableOpen" });
-  }
-
-  return (
-    <div className={"addNewTaskModal"}>
-      <h1>Add New Table</h1>
-
-      <h2>Table Title</h2>
-      <input
-        placeholder="Store website things"
-        value={table.title}
-        onChange={(e) => setTable({ ...table, title: e.target.value })}
-      />
-      <div className="buttonsContainer">
-        <Button className="addButton" onClick={() => handleTableSubmit()}>
-          Add Table
-        </Button>
-        <Button
-          className="closeButton"
-          onClick={() => dispatch({ type: "newTableOpen" })}
         >
           Close
         </Button>
