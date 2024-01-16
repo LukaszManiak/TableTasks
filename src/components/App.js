@@ -62,17 +62,21 @@ function AllTables() {
             key={i}
           >
             <p>{table.title}</p>
-            <button
+            <Button
+              className="deleteTable"
               onClick={() =>
                 dispatch({ type: "tableDelete", payload: table.id })
               }
             >
               X
-            </button>
+            </Button>
           </li>
         ))}
       </ul>
-      <Button onClick={() => dispatch({ type: "newTableOpen" })}>
+      <Button
+        className="addNewTable"
+        onClick={() => dispatch({ type: "newTableOpen" })}
+      >
         +Add New Table
       </Button>
     </div>
@@ -96,23 +100,29 @@ function Table() {
           <h2>{selectedTable}</h2>
           <div>
             <div>TODO ({tables[tableIndex]?.todoTasks?.length || 0})</div>
-            {tables[tableIndex]?.todoTasks?.map((task, i) => (
-              <TableItem task={task} key={i} />
-            ))}
+            <div className="tableItems">
+              {tables[tableIndex]?.todoTasks?.map((task, i) => (
+                <TableItem task={task} key={i} />
+              ))}
+            </div>
           </div>
           <div>
             <div>
               IN PROGRESS ({tables[tableIndex]?.inProgress?.length || 0})
             </div>
-            {tables[tableIndex]?.inProgress?.map((task, i) => (
-              <TableItem task={task} key={i} />
-            ))}
+            <div className="tableItems">
+              {tables[tableIndex]?.inProgress?.map((task, i) => (
+                <TableItem task={task} key={i} />
+              ))}
+            </div>
           </div>
           <div>
             <div>DONE ({tables[tableIndex]?.doneTasks?.length || 0})</div>
-            {tables[tableIndex]?.doneTasks?.map((task, i) => (
-              <TableItem task={task} key={i} />
-            ))}
+            <div className="tableItems">
+              {tables[tableIndex]?.doneTasks?.map((task, i) => (
+                <TableItem task={task} key={i} />
+              ))}
+            </div>
           </div>
         </>
       )}
@@ -139,18 +149,18 @@ function TaskBox() {
   return (
     <div className="taskBox">
       <div className="ButtonsContainer">
-        <button
-          className="delateTaskButton"
+        <Button
+          className="delateTask"
           onClick={() => dispatch({ type: "taskDelete", payload: currTask })}
         >
           Delete task
-        </button>
-        <button
+        </Button>
+        <Button
           className="closeButton"
           onClick={() => dispatch({ type: "taskSelection" })}
         >
           X
-        </button>
+        </Button>
       </div>
       <h2>{currTask.title}</h2>
       <p>{currTask.description}</p>

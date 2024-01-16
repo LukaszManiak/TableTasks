@@ -1,0 +1,101 @@
+.addButton {
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  background-color: rgb(158, 91, 221);
+  color: white;
+
+  transition: all ease-in-out 0.15s;
+  cursor: pointer;
+}
+.addButton:hover {
+  color: rgb(158, 91, 221);
+  background-color: white;
+}
+
+.closeButton {
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  background-color: var(--veryLightGray);
+  color: var(--veryDarkBlue);
+
+  cursor: pointer;
+
+  transition: all ease-in-out 0.15s;
+}
+.closeButton:hover {
+  background-color: var(--veryDarkBlue);
+  color: var(--veryLightGray);
+}
+
+.delateTask {
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  background-color: rgb(207, 52, 52);
+  color: white;
+
+  cursor: pointer;
+
+  transition: all ease-in-out 0.15s;
+}
+.delateTask:hover {
+  background-color: white;
+  color: rgb(207, 52, 52);
+}
+
+.restartApp {
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  background-color: rgb(158, 91, 221);
+  color: white;
+
+  margin-left: 10px;
+
+  transition: all ease-in-out 0.15s;
+  cursor: pointer;
+}
+
+.restartApp:hover {
+  color: rgb(158, 91, 221);
+  background-color: white;
+}
+
+.addTask {
+  padding: 10px 20px;
+  background-color: var(--seaBlue);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+
+  transition: all ease-in-out 0.15s;
+}
+
+.addTask:hover {
+  box-shadow: 0px 3px 0px 1px var(--veryLightGray);
+}
+
+.addNewTable {
+  align-self: flex-start;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  color: var(--seaBlue);
+}
+
+.deleteTable {
+  padding: 10px 20px;
+  border-radius: 25px;
+  border: none;
+  background-color: var(--seaBlue);
+  color: white;
+  transition: all ease-in-out 0.15s;
+  cursor: pointer;
+}
+.deleteTable:hover {
+  background-color: white;
+  color: var(--seaBlue);
+}
