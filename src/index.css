@@ -29,6 +29,15 @@ body {
   color: white;
 }
 
+input {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border: none;
+  box-sizing: border-box;
+  border-radius: 15px;
+}
+
 .app {
   display: flex;
   flex-direction: column;
@@ -37,8 +46,8 @@ body {
 }
 
 .allTables {
-  height: 10%;
-  padding: 0 10% 2% 10%;
+  height: auto;
+  padding: 0 10% 3% 10%;
 
   display: flex;
   flex-direction: column;
@@ -51,6 +60,7 @@ body {
   list-style: none;
   display: flex;
   justify-content: flex-start;
+  gap: 10px;
   flex-wrap: wrap;
 }
 .allTables ul li {
@@ -61,20 +71,37 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px 30px;
-  border: none;
+
+  padding: 5px;
+
+  border: solid 2px rgb(158, 91, 221);
   border-radius: 15px;
   transition: all ease-in-out 0.15s;
 }
-.allTables ul li:hover,
-.allTables ul li:hover button {
-  background-color: var(--veryLightGray);
-  color: var(--veryDarkBlue);
+.allTables ul li p {
+  padding: 10px 30px;
+  border-radius: 15px;
+  transition: all ease-in-out 0.15s;
 }
-.allTables ul li.selected,
+
+.allTables ul li button {
+  padding: 10px 20px;
+  border-radius: 25px;
+  color: rgb(158, 91, 221);
+  transition: all ease-in-out 0.15s;
+}
+.allTables ul li p:hover,
+.allTables ul li button:hover {
+  background-color: rgb(158, 91, 221);
+  color: white;
+}
+.allTables ul li.selected p,
 .allTables ul li.selected button {
   background-color: var(--seaBlue);
   color: var(--white);
+}
+.allTables ul li.selected {
+  border: solid 2px var(--seaBlue);
 }
 
 .allTables button {
@@ -178,13 +205,77 @@ body {
   padding: 30px;
 }
 
-.modaButtonsContainer {
+.ButtonsContainer {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
+.restartApp {
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  background-color: rgb(158, 91, 221);
+  color: white;
+
+  margin-left: 10px;
+
+  transition: all ease-in-out 0.15s;
+  cursor: pointer;
+}
+
+.restartApp:hover {
+  color: rgb(158, 91, 221);
+  background-color: white;
+}
+
+.addButton {
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  background-color: rgb(158, 91, 221);
+  color: white;
+
+  transition: all ease-in-out 0.15s;
+  cursor: pointer;
+}
+.addButton:hover {
+  color: rgb(158, 91, 221);
+  background-color: white;
+}
+
+.closeButton {
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  background-color: var(--veryLightGray);
+  color: var(--veryDarkBlue);
+
+  cursor: pointer;
+
+  transition: all ease-in-out 0.15s;
+}
+.closeButton:hover {
+  background-color: var(--veryDarkBlue);
+  color: var(--veryLightGray);
+}
+
+.delateTaskButton {
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  background-color: rgb(207, 52, 52);
+  color: white;
+
+  cursor: pointer;
+
+  transition: all ease-in-out 0.15s;
+}
+.delateTaskButton:hover {
+  background-color: white;
+  color: rgb(207, 52, 52);
+}
 .hidden {
   display: none;
 }
@@ -204,12 +295,9 @@ body {
 
 @media (max-width: 968px) {
   .allTables {
+    padding-bottom: 20px;
     height: auto;
   }
-  .allTables ul {
-    gap: 5px;
-  }
-
   .table {
     padding: 10%;
     width: 80%;

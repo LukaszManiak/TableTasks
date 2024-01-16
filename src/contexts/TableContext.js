@@ -31,7 +31,7 @@ function reducer(state, action) {
       const actionType = action.payload.type;
       // currently opened table
       const currTable = state.tables
-        .map((t) => t.title)
+        .map((table) => table.title)
         .indexOf(state.selectedTable);
 
       // checking for tables and selected table
@@ -83,26 +83,16 @@ function reducer(state, action) {
 
     // add table
     case "addTable":
-      const { title: tableTitle } = action.payload;
-      console.log(action.payload);
+      const tableTitle = action.payload.title;
       // if the title input is empty return
       if (tableTitle === "") return state;
       // if there is already table with the same name return
-      if (state.tables.map((t) => t.title).includes(tableTitle)) return state;
+      if (state.tables.map((table) => table.title).includes(tableTitle))
+        return state;
       // returning table with the given title and tasks array
       return {
         ...state,
-        tables: [
-          ...state.tables,
-          {
-            title: tableTitle,
-
-            // table todos
-            todoTasks: [],
-            inProgress: [],
-            doneTasks: [],
-          },
-        ],
+        tables: [...state.tables, action.payload],
       };
     // table selection
     case "tableSelection":
@@ -120,7 +110,7 @@ function reducer(state, action) {
       const { type, id } = action.payload;
 
       const selectedTable = state.tables.find(
-        (t) => t.title === state.selectedTable
+        (table) => table.title === state.selectedTable
       );
       // return state if there is no selected table
       if (!selectedTable) {
@@ -178,11 +168,15 @@ function reducer(state, action) {
       } else {
         return state;
       }
-    // case "tableDelete":
-    //   const { id: tableID } = action.payload;
-    //   console.log(action.payload, tableID);
+    case "tableDelete":
+      const deleteTableId = action.payload;
+      console.log(action.payload);
+      const newTables = state.tables.filter(
+        (table) => table.id !== deleteTableId
+      );
+      console.log(action.payload, newTables);
+      return { ...state, tables: newTables };
 
-    //   return { ...state };
     case "restartApp":
       return { ...initialState };
     default:

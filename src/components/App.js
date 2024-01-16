@@ -63,7 +63,9 @@ function AllTables() {
           >
             <p>{table.title}</p>
             <button
-              onClick={() => dispatch({ type: "tableDelete", payload: table })}
+              onClick={() =>
+                dispatch({ type: "tableDelete", payload: table.id })
+              }
             >
               X
             </button>
@@ -78,7 +80,7 @@ function AllTables() {
 }
 
 function Table() {
-  const { selectedTable, tables, dispatch } = useTable();
+  const { selectedTable, tables } = useTable();
 
   const tableIndex = tables.findIndex((t) => t.title === selectedTable);
 
@@ -93,20 +95,22 @@ function Table() {
         <>
           <h2>{selectedTable}</h2>
           <div>
-            <div>TODO ({tables[tableIndex].todoTasks.length || 0})</div>
-            {tables[tableIndex].todoTasks.map((task, i) => (
+            <div>TODO ({tables[tableIndex]?.todoTasks?.length || 0})</div>
+            {tables[tableIndex]?.todoTasks?.map((task, i) => (
               <TableItem task={task} key={i} />
             ))}
           </div>
           <div>
-            <div>IN PROGRESS ({tables[tableIndex].inProgress.length || 0})</div>
-            {tables[tableIndex].inProgress.map((task, i) => (
+            <div>
+              IN PROGRESS ({tables[tableIndex]?.inProgress?.length || 0})
+            </div>
+            {tables[tableIndex]?.inProgress?.map((task, i) => (
               <TableItem task={task} key={i} />
             ))}
           </div>
           <div>
-            <div>DONE ({tables[tableIndex].doneTasks.length || 0})</div>
-            {tables[tableIndex].doneTasks.map((task, i) => (
+            <div>DONE ({tables[tableIndex]?.doneTasks?.length || 0})</div>
+            {tables[tableIndex]?.doneTasks?.map((task, i) => (
               <TableItem task={task} key={i} />
             ))}
           </div>
@@ -131,17 +135,25 @@ function TableItem({ task }) {
 }
 
 function TaskBox() {
-  const { currTask, tables, selectedTable, dispatch } = useTable();
+  const { currTask, dispatch } = useTable();
   return (
     <div className="taskBox">
+      <div className="ButtonsContainer">
+        <button
+          className="delateTaskButton"
+          onClick={() => dispatch({ type: "taskDelete", payload: currTask })}
+        >
+          Delete task
+        </button>
+        <button
+          className="closeButton"
+          onClick={() => dispatch({ type: "taskSelection" })}
+        >
+          X
+        </button>
+      </div>
       <h2>{currTask.title}</h2>
       <p>{currTask.description}</p>
-      <button onClick={() => dispatch({ type: "taskSelection" })}>X</button>
-      <button
-        onClick={() => dispatch({ type: "taskDelete", payload: currTask })}
-      >
-        Delete task
-      </button>
     </div>
   );
 }
@@ -176,14 +188,14 @@ function AddNewTask() {
   // console.log(task);
   return (
     <div className={"addNewTaskModal"}>
-      <h3>Add New Task</h3>
-      <label>Title</label>
+      <h1>Add New Task</h1>
+      <h2>Title</h2>
       <input
         placeholder="Platform setup"
         value={task.title}
         onChange={(e) => setTask({ ...task, title: e.target.value })}
       />
-      <label>Description</label>
+      <h3>Description</h3>
       <input
         placeholder="Description"
         value={task.description}
@@ -199,9 +211,16 @@ function AddNewTask() {
         <option value={"inprogress"}>In progress</option>
         <option value={"done"}>Done</option>
       </select>
-      <div className="modaButtonsContainer">
-        <Button onClick={() => handleTaskSubmit()}>Add Task</Button>
-        <Button onClick={() => dispatch({ type: "newTaskOpen" })}>Close</Button>
+      <div className="ButtonsContainer">
+        <Button className="addButton" onClick={() => handleTaskSubmit()}>
+          Add Task
+        </Button>
+        <Button
+          className="closeButton"
+          onClick={() => dispatch({ type: "newTaskOpen" })}
+        >
+          Close
+        </Button>
       </div>
     </div>
   );
@@ -213,8 +232,14 @@ function AddNewTable() {
   // task state
   const [table, setTable] = useState({
     title: "",
+    id: new Date().getTime(),
+    // table todos
+    todoTasks: [],
+    inProgress: [],
+    doneTasks: [],
   });
 
+  console.log(table);
   // handling table input clear
   function handleTableSubmit() {
     // add
@@ -222,6 +247,11 @@ function AddNewTable() {
     // reset table state
     setTable({
       title: "",
+      id: "",
+      // table todos
+      todoTasks: [],
+      inProgress: [],
+      doneTasks: [],
     });
     // close table modal form
     dispatch({ type: "newTableOpen" });
@@ -229,17 +259,22 @@ function AddNewTable() {
 
   return (
     <div className={"addNewTaskModal"}>
-      <h3>Add New Table</h3>
+      <h1>Add New Table</h1>
 
-      <label>Table Title</label>
+      <h2>Table Title</h2>
       <input
         placeholder="Store website things"
         value={table.title}
-        onChange={(e) => setTable({ title: e.target.value })}
+        onChange={(e) => setTable({ ...table, title: e.target.value })}
       />
-      <div className="modaButtonsContainer">
-        <Button onClick={() => handleTableSubmit()}>Add Table</Button>
-        <Button onClick={() => dispatch({ type: "newTableOpen" })}>
+      <div className="ButtonsContainer">
+        <Button className="addButton" onClick={() => handleTableSubmit()}>
+          Add Table
+        </Button>
+        <Button
+          className="closeButton"
+          onClick={() => dispatch({ type: "newTableOpen" })}
+        >
           Close
         </Button>
       </div>
