@@ -1,3 +1,3 @@
-export default function Message({ message }) {
-  return <h1>{message}</h1>;
+export default function Message({ message, className }) {
+  return <h1 className={className}>{message}</h1>;
 }

@@ -22,6 +22,7 @@ html,
 
 html {
   font-size: 14px;
+  transition: all ease-in-out 0.25s;
 }
 
 body {
@@ -38,6 +39,10 @@ input {
   border-radius: 15px;
 }
 
+.invertMode {
+  filter: invert(100%);
+}
+
 .app {
   display: flex;
   flex-direction: column;
@@ -47,7 +52,7 @@ input {
 
 .allTables {
   height: auto;
-  padding: 0 10% 3% 10%;
+  padding: 1% 10%;
 
   display: flex;
   flex-direction: column;
@@ -101,6 +106,7 @@ input {
   height: 10%;
   padding: 0 10%;
 
+  border-bottom: solid 1px var(--veryDarkBlue);
   background-color: var(--darkBlue);
 
   display: flex;
@@ -131,7 +137,7 @@ input {
   width: 100%;
   padding: 15px 30px;
   background-color: var(--darkBlue);
-  box-shadow: 0px 3px 0px 3px rgb(49, 59, 170);
+  box-shadow: 0px 3px 0px 2px var(--veryLightGray);
 
   display: flex;
   align-items: center;
@@ -146,7 +152,7 @@ input {
   width: 400px;
   height: 400px;
   padding: 3rem;
-  background-color: rgb(49, 59, 170);
+  background-color: var(--darkBlue);
   border-radius: 25px;
 
   transition: all ease-in-out 0.15s;
@@ -161,6 +167,12 @@ input {
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
+}
+
+.taskBox p {
+  width: 100%;
+  word-wrap: break-word;
+  opacity: 0.8;
 }
 
 .addNewTaskModal {
@@ -185,15 +197,25 @@ input {
   padding: 30px;
 }
 
-.ButtonsContainer {
+.buttonsContainer {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
+.navButtons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
 .hidden {
   display: none;
+}
+.startMsg {
+  align-self: center;
+  margin-top: -4%;
 }
 
 .dark-bg {
@@ -211,8 +233,13 @@ input {
 
 @media (max-width: 968px) {
   .navBar {
-    height: 10%;
+    height: auto;
     padding: 2% 5%;
+    gap: 10px;
+
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
   }
   .allTables {
     padding: 3% 5% 3% 5%;

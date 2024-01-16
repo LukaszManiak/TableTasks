@@ -29,7 +29,7 @@ function NavBar() {
   return (
     <nav className="navBar">
       <h2>TableTasks</h2>
-      <div>
+      <div className="navButtons">
         <Button
           onClick={() => dispatch({ type: "newTaskOpen" })}
           className="addTask"
@@ -41,6 +41,12 @@ function NavBar() {
           className="restartApp"
         >
           Restart app
+        </Button>
+        <Button
+          onClick={() => dispatch({ type: "toggleMode" })}
+          className="modeToggle"
+        >
+          Mode
         </Button>
       </div>
     </nav>
@@ -92,6 +98,7 @@ function Table() {
     <div className="table">
       {!selectedTable && (
         <Message
+          className="startMsg"
           message={"Make a table and start adding your tasks!"}
         ></Message>
       )}
@@ -136,7 +143,6 @@ function TableItem({ task }) {
     <div
       className="tableItem"
       onClick={() => dispatch({ type: "taskSelection", payload: task })}
-      // onClick={() => console.log(task)}
     >
       <p>{task.title}</p>
       {/* <p>0 of 3 done</p> */}
@@ -148,7 +154,7 @@ function TaskBox() {
   const { currTask, dispatch } = useTable();
   return (
     <div className="taskBox">
-      <div className="ButtonsContainer">
+      <div className="buttonsContainer">
         <Button
           className="delateTask"
           onClick={() => dispatch({ type: "taskDelete", payload: currTask })}
@@ -221,7 +227,7 @@ function AddNewTask() {
         <option value={"inprogress"}>In progress</option>
         <option value={"done"}>Done</option>
       </select>
-      <div className="ButtonsContainer">
+      <div className="buttonsContainer">
         <Button className="addButton" onClick={() => handleTaskSubmit()}>
           Add Task
         </Button>
@@ -277,7 +283,7 @@ function AddNewTable() {
         value={table.title}
         onChange={(e) => setTable({ ...table, title: e.target.value })}
       />
-      <div className="ButtonsContainer">
+      <div className="buttonsContainer">
         <Button className="addButton" onClick={() => handleTableSubmit()}>
           Add Table
         </Button>

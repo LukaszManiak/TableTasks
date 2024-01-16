@@ -15,6 +15,7 @@ const initialState = {
   // task selection
   isTaskSelected: false,
   currTask: null,
+  mode: "dark",
 };
 
 function reducer(state, action) {
@@ -168,17 +169,32 @@ function reducer(state, action) {
       } else {
         return state;
       }
+    // delete table
     case "tableDelete":
+      // table id
       const deleteTableId = action.payload;
       console.log(action.payload);
+      // filtered tables
       const newTables = state.tables.filter(
         (table) => table.id !== deleteTableId
       );
-      console.log(action.payload, newTables);
+
       return { ...state, tables: newTables };
 
     case "restartApp":
       return { ...initialState };
+
+    //working version of mode toggler
+    case "toggleMode":
+      const newMode = state.mode === "dark" ? "light" : "dark";
+
+      if (newMode === "dark") {
+        document.documentElement.classList.add("invertMode");
+      } else {
+        document.documentElement.classList.remove("invertMode");
+      }
+
+      return { ...state, mode: newMode };
     default:
       throw new Error("Unkown");
   }
