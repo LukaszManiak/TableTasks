@@ -10,6 +10,12 @@
   justify-content: space-between;
 }
 
+.navButtons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
 @media (max-width: 968px) {
   .navBar {
     height: auto;

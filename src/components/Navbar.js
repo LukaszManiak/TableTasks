@@ -9,7 +9,7 @@ export default function NavBar() {
   return (
     <nav className={styles["navBar"]}>
       <h2>TableTasks</h2>
-      <div className="navButtons">
+      <div className={styles["navButtons"]}>
         <Button
           onClick={() => dispatch({ type: "newTaskOpen" })}
           className="addTask"

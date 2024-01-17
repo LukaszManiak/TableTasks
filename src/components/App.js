@@ -5,6 +5,7 @@ import { useTable } from "../contexts/TableContext";
 import Button from "./Button";
 import Message from "./Message";
 import AddNewTable from "./AddNewTable";
+import AddNewTask from "./AddNewTask";
 import NavBar from "./Navbar";
 
 function App() {
@@ -142,74 +143,6 @@ function TaskBox() {
       </div>
       <h2>{currTask.title}</h2>
       <p>{currTask.description}</p>
-    </div>
-  );
-}
-
-// add new task modal
-function AddNewTask() {
-  const { dispatch } = useTable();
-  // task state
-  const [task, setTask] = useState({
-    title: "",
-    description: "",
-    type: "",
-    id: new Date().getTime(),
-  });
-
-  // handling task inputs clear
-  function handleTaskSubmit() {
-    // add task
-    dispatch({ type: "addTask", payload: task });
-
-    // reset task state
-    setTask({
-      title: "",
-      description: "",
-      type: "",
-      id: "",
-    });
-    // close task modal form
-    dispatch({ type: "newTaskOpen" });
-  }
-
-  // console.log(task);
-  return (
-    <div className={"addNewTaskModal"}>
-      <h1>Add New Task</h1>
-      <h2>Title</h2>
-      <input
-        placeholder="Platform setup"
-        value={task.title}
-        onChange={(e) => setTask({ ...task, title: e.target.value })}
-      />
-      <h3>Description</h3>
-      <input
-        placeholder="Description"
-        value={task.description}
-        onChange={(e) => setTask({ ...task, description: e.target.value })}
-      />
-
-      <select
-        value={task.type}
-        onChange={(e) => setTask({ ...task, type: e.target.value })}
-      >
-        <option value={""}>Select Option</option>
-        <option value={"todo"}>Todo</option>
-        <option value={"inprogress"}>In progress</option>
-        <option value={"done"}>Done</option>
-      </select>
-      <div className="buttonsContainer">
-        <Button className="addButton" onClick={() => handleTaskSubmit()}>
-          Add Task
-        </Button>
-        <Button
-          className="closeButton"
-          onClick={() => dispatch({ type: "newTaskOpen" })}
-        >
-          Close
-        </Button>
-      </div>
     </div>
   );
 }

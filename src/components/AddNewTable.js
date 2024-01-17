@@ -1,5 +1,8 @@
+import styles from "./AddNewTable.module.css";
+
 import { useState } from "react";
 import { useTable } from "../contexts/TableContext";
+
 import Button from "./Button";
 
 export default // add new table modal
@@ -17,7 +20,8 @@ function AddNewTable() {
 
   console.log(table);
   // handling table input clear
-  function handleTableSubmit() {
+  function handleTableSubmit(e) {
+    e.preventDefault();
     // add
     dispatch({ type: "addTable", payload: table });
     // reset table state
@@ -34,17 +38,17 @@ function AddNewTable() {
   }
 
   return (
-    <div className={"addNewTaskModal"}>
+    <form className={styles["addNewTableModal"]} onSubmit={handleTableSubmit}>
       <h1>Add New Table</h1>
 
-      <h2>Table Title</h2>
+      <label htmlFor="title">Table Title</label>
       <input
         placeholder="Store website things"
         value={table.title}
         onChange={(e) => setTable({ ...table, title: e.target.value })}
       />
       <div className="buttonsContainer">
-        <Button className="addButton" onClick={() => handleTableSubmit()}>
+        <Button className="addButton" type="submit">
           Add Table
         </Button>
         <Button
@@ -54,6 +58,6 @@ function AddNewTable() {
           Close
         </Button>
       </div>
-    </div>
+    </form>
   );
 }
