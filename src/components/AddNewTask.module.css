@@ -5,8 +5,8 @@
   transform: translate(-50%, -50%);
   z-index: 10;
 
-  width: 300px;
-  height: 400px;
+  width: 400px;
+  height: auto;
 
   background-color: var(--veryDarkBlueLight);
 
@@ -16,6 +16,26 @@
   align-items: flex-start;
   justify-content: center;
 
+  transition: all ease-in-out 0.15s;
+
   border-radius: 15px;
   padding: 30px;
+}
+
+.subBox {
+  width: 100%;
+  gap: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.subBox button {
+  width: 20%;
+}
+
+@media (max-width: 968px) {
+  .addNewTaskModal {
+    width: 320px;
+  }
 }

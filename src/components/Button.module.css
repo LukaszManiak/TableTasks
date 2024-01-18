@@ -110,6 +110,23 @@
   color: var(--seaBlue);
 }
 
+.addSubtask {
+  width: 100%;
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  background-color: rgb(158, 91, 221);
+  color: white;
+
+  transition: all ease-in-out 0.15s;
+  cursor: pointer;
+}
+
+.addSubtasks:hover {
+  color: rgb(158, 91, 221);
+  background-color: white;
+}
+
 @media (max-width: 968px) {
   .modeToggle,
   .restartApp {

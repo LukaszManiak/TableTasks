@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useTable } from "../contexts/TableContext";
 
 // components
@@ -7,6 +6,7 @@ import Message from "./Message";
 import AddNewTable from "./AddNewTable";
 import AddNewTask from "./AddNewTask";
 import NavBar from "./Navbar";
+import { useState } from "react";
 
 function App() {
   const { isNewTaskOpen, isNewTableOpen, isTaskSelected } = useTable();
@@ -125,6 +125,17 @@ function TableItem({ task }) {
 
 function TaskBox() {
   const { currTask, dispatch } = useTable();
+
+  function handleChange(e) {
+    e.preventDefault();
+
+    dispatch({ type: "taskDelete", payload: currTask });
+    dispatch({
+      type: "addTask",
+      payload: { ...currTask, type: e.target.value },
+    });
+  }
+
   return (
     <div className="taskBox">
       <div className="buttonsContainer">
@@ -143,6 +154,17 @@ function TaskBox() {
       </div>
       <h2>{currTask.title}</h2>
       <p>{currTask.description}</p>
+
+      <p>Subtasks (0 of 1)</p>
+      <div className="subBox">
+        <input type="checkbox" /> <p>Make a coffe</p>
+      </div>
+      {/* changing type of the currentTask */}
+      <select value={currTask.type} onChange={(e) => handleChange(e)}>
+        <option value={"todo"}>Todo</option>
+        <option value={"inprogress"}>In progress</option>
+        <option value={"done"}>Done</option>
+      </select>
     </div>
   );
 }

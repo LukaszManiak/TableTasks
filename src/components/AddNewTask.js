@@ -12,6 +12,7 @@ function AddNewTask() {
   const [task, setTask] = useState({
     title: "",
     description: "",
+    subtasks: [],
     type: "",
     id: new Date().getTime(),
   });
@@ -49,7 +50,18 @@ function AddNewTask() {
         value={task.description}
         onChange={(e) => setTask({ ...task, description: e.target.value })}
       />
+      <h4>Subtasks</h4>
+      <div className={styles["subBox"]}>
+        <input placeholder="e.g Make coffe..." />
+        <button>X</button>
+      </div>
+      <div className={styles["subBox"]}>
+        <input placeholder="e.g Make coffe..." />
+        <button>X</button>
+      </div>
+      <Button className="addSubtask">+Add New Subtask</Button>
 
+      <h5>Status</h5>
       <select
         value={task.type}
         onChange={(e) => setTask({ ...task, type: e.target.value })}
