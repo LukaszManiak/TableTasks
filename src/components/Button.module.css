@@ -29,7 +29,7 @@
   color: var(--veryLightGray);
 }
 
-.delateTask {
+.deleteTask {
   padding: 10px 20px;
   border-radius: 20px;
   border: none;
@@ -40,7 +40,7 @@
 
   transition: all ease-in-out 0.15s;
 }
-.delateTask:hover {
+.deleteTask:hover {
   background-color: white;
   color: rgb(207, 52, 52);
 }

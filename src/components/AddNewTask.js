@@ -12,14 +12,48 @@ function AddNewTask() {
   const [task, setTask] = useState({
     title: "",
     description: "",
-    subtasks: [],
+    subtasks: [
+      { subVal: "", subId: new Date().getTime() + 1 },
+      { subVal: "", subId: new Date().getTime() + 2 },
+    ],
     type: "",
     id: new Date().getTime(),
   });
 
-  // handling task inputs clear
-  function handleTaskSubmit(e) {
+  // setting certain subtask value
+  const handleSubValChange = (e, selectedSub) => {
     e.preventDefault();
+
+    const newSubTasks = task.subtasks.map((subTask) =>
+      subTask.subId === selectedSub.subId
+        ? { ...selectedSub, subVal: e.target.value }
+        : subTask
+    );
+
+    setTask({
+      ...task,
+      subtasks: newSubTasks,
+    });
+  };
+
+  // add subtask
+  function addSubtask() {
+    setTask({
+      ...task,
+      subtasks: [...task.subtasks, { subVal: "", subId: new Date().getTime() }],
+    });
+  }
+
+  // subtask delete
+  function deleteSubTask(id) {
+    setTask({
+      ...task,
+      subtasks: task.subtasks.filter((subTask) => subTask.subId !== id),
+    });
+  }
+
+  // handling task inputs clear
+  function handleTaskSubmit() {
     // add task
     dispatch({ type: "addTask", payload: task });
 
@@ -27,6 +61,10 @@ function AddNewTask() {
     setTask({
       title: "",
       description: "",
+      subtasks: [
+        { subVal: "", subId: new Date().getTime() + 1 },
+        { subVal: "", subId: new Date().getTime() + 2 },
+      ],
       type: "",
       id: "",
     });
@@ -36,7 +74,7 @@ function AddNewTask() {
 
   // console.log(task);
   return (
-    <form className={styles["addNewTaskModal"]} onSubmit={handleTaskSubmit}>
+    <div className={styles["addNewTaskModal"]}>
       <h1>Add New Task</h1>
       <h2>Title</h2>
       <input
@@ -51,15 +89,20 @@ function AddNewTask() {
         onChange={(e) => setTask({ ...task, description: e.target.value })}
       />
       <h4>Subtasks</h4>
-      <div className={styles["subBox"]}>
-        <input placeholder="e.g Make coffe..." />
-        <button>X</button>
-      </div>
-      <div className={styles["subBox"]}>
-        <input placeholder="e.g Make coffe..." />
-        <button>X</button>
-      </div>
-      <Button className="addSubtask">+Add New Subtask</Button>
+      {task.subtasks?.map((subTask) => (
+        <div className={styles["subBox"]} key={subTask.subId}>
+          <input
+            value={subTask.subVal}
+            placeholder="e.g Make coffe..."
+            onChange={(e) => handleSubValChange(e, subTask)}
+          />
+          <button onClick={() => deleteSubTask(subTask.subId)}>X</button>
+        </div>
+      ))}
+
+      <Button className="addSubtask" onClick={() => addSubtask()}>
+        +Add New Subtask
+      </Button>
 
       <h5>Status</h5>
       <select
@@ -72,7 +115,7 @@ function AddNewTask() {
         <option value={"done"}>Done</option>
       </select>
       <div className="buttonsContainer">
-        <Button className="addButton" type="submit">
+        <Button className="addButton" onClick={() => handleTaskSubmit()}>
           Add Task
         </Button>
         <Button
@@ -82,6 +125,6 @@ function AddNewTask() {
           Close
         </Button>
       </div>
-    </form>
+    </div>
   );
 }

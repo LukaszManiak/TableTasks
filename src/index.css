@@ -174,6 +174,25 @@ input {
   display: none;
 }
 
+.subTaskBox {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.subTaskBox input {
+  width: 20%;
+}
+
+.subTaskBox p {
+  width: 70%;
+  background-color: rgb(158, 91, 221);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 15px;
+  opacity: 1;
+}
+
 .dark-bg {
   position: fixed;
   top: 0;

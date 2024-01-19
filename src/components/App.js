@@ -126,6 +126,10 @@ function TableItem({ task }) {
 function TaskBox() {
   const { currTask, dispatch } = useTable();
 
+  const checkedSubTasks = currTask.subtasks.filter(
+    (subTask) => subTask.subVal !== ""
+  );
+
   function handleChange(e) {
     e.preventDefault();
 
@@ -138,9 +142,25 @@ function TaskBox() {
 
   return (
     <div className="taskBox">
+      <h2>{currTask.title}</h2>
+      <p>{currTask.description}</p>
+
+      <p>Subtasks (0 of {currTask.subtasks.length})</p>
+      {checkedSubTasks.map((subTask) => (
+        <div className="subTaskBox" key={subTask.subId}>
+          <input type="checkbox" /> <p>{subTask.subVal}</p>
+        </div>
+      ))}
+
+      {/* changing type of the currentTask */}
+      <select value={currTask.type} onChange={(e) => handleChange(e)}>
+        <option value={"todo"}>Todo</option>
+        <option value={"inprogress"}>In progress</option>
+        <option value={"done"}>Done</option>
+      </select>
       <div className="buttonsContainer">
         <Button
-          className="delateTask"
+          className="deleteTask"
           onClick={() => dispatch({ type: "taskDelete", payload: currTask })}
         >
           Delete task
@@ -152,19 +172,6 @@ function TaskBox() {
           X
         </Button>
       </div>
-      <h2>{currTask.title}</h2>
-      <p>{currTask.description}</p>
-
-      <p>Subtasks (0 of 1)</p>
-      <div className="subBox">
-        <input type="checkbox" /> <p>Make a coffe</p>
-      </div>
-      {/* changing type of the currentTask */}
-      <select value={currTask.type} onChange={(e) => handleChange(e)}>
-        <option value={"todo"}>Todo</option>
-        <option value={"inprogress"}>In progress</option>
-        <option value={"done"}>Done</option>
-      </select>
     </div>
   );
 }

@@ -20,8 +20,7 @@ function AddNewTable() {
 
   console.log(table);
   // handling table input clear
-  function handleTableSubmit(e) {
-    e.preventDefault();
+  function handleTableSubmit() {
     // add
     dispatch({ type: "addTable", payload: table });
     // reset table state
@@ -38,7 +37,7 @@ function AddNewTable() {
   }
 
   return (
-    <form className={styles["addNewTableModal"]} onSubmit={handleTableSubmit}>
+    <div className={styles["addNewTableModal"]}>
       <h1>Add New Table</h1>
 
       <label htmlFor="title">Table Title</label>
@@ -48,7 +47,7 @@ function AddNewTable() {
         onChange={(e) => setTable({ ...table, title: e.target.value })}
       />
       <div className="buttonsContainer">
-        <Button className="addButton" type="submit">
+        <Button className="addButton" onClick={() => handleTableSubmit()}>
           Add Table
         </Button>
         <Button
@@ -58,6 +57,6 @@ function AddNewTable() {
           Close
         </Button>
       </div>
-    </form>
+    </div>
   );
 }
