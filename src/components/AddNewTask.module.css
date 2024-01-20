@@ -30,10 +30,6 @@
   justify-content: space-between;
 }
 
-.subBox button {
-  width: 20%;
-}
-
 @media (max-width: 968px) {
   .addNewTaskModal {
     width: 320px;

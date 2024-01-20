@@ -122,9 +122,26 @@
   cursor: pointer;
 }
 
-.addSubtasks:hover {
+.addSubtask:hover {
   color: rgb(158, 91, 221);
   background-color: white;
+}
+
+.deleteSubTask {
+  font-size: 24px;
+  font-weight: bold;
+  transition: all ease-in-out 0.15s;
+
+  border: none;
+  background-color: transparent;
+
+  color: white;
+
+  cursor: pointer;
+}
+
+.deleteSubTask:hover {
+  color: rgb(158, 91, 221);
 }
 
 @media (max-width: 968px) {

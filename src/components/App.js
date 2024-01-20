@@ -6,7 +6,7 @@ import Message from "./Message";
 import AddNewTable from "./AddNewTable";
 import AddNewTask from "./AddNewTask";
 import NavBar from "./Navbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
   const { isNewTaskOpen, isNewTableOpen, isTaskSelected } = useTable();
@@ -126,11 +126,11 @@ function TableItem({ task }) {
 function TaskBox() {
   const { currTask, dispatch } = useTable();
 
-  const checkedSubTasks = currTask.subtasks.filter(
-    (subTask) => subTask.subVal !== ""
-  );
+  const [subtasks, setSubtasks] = useState(currTask.subtasks);
 
-  function handleChange(e) {
+  // function handleCheckedChange(id) {}
+
+  function handleTypeChange(e) {
     e.preventDefault();
 
     dispatch({ type: "taskDelete", payload: currTask });
@@ -139,21 +139,29 @@ function TaskBox() {
       payload: { ...currTask, type: e.target.value },
     });
   }
+  useEffect(function () {
+    const newSubTasks = subtasks.filter((subTask) => subTask.subVal !== "");
+    setSubtasks(newSubTasks);
+  }, []);
 
   return (
     <div className="taskBox">
       <h2>{currTask.title}</h2>
       <p>{currTask.description}</p>
 
-      <p>Subtasks (0 of {currTask.subtasks.length})</p>
-      {checkedSubTasks.map((subTask) => (
+      <p>Subtasks (0 of {subtasks?.length || 0})</p>
+      {subtasks?.map((subTask) => (
         <div className="subTaskBox" key={subTask.subId}>
-          <input type="checkbox" /> <p>{subTask.subVal}</p>
+          <input
+            // onChange={() => handleCheckedChange(subTask.subId)}
+            type="checkbox"
+          />{" "}
+          <p>{subTask.subVal}</p>
         </div>
       ))}
 
       {/* changing type of the currentTask */}
-      <select value={currTask.type} onChange={(e) => handleChange(e)}>
+      <select value={currTask.type} onChange={(e) => handleTypeChange(e)}>
         <option value={"todo"}>Todo</option>
         <option value={"inprogress"}>In progress</option>
         <option value={"done"}>Done</option>

@@ -176,9 +176,14 @@ input {
 
 .subTaskBox {
   width: 100%;
+  padding: 5px;
+  border-radius: 5px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  background-color: hsla(200, 15%, 8%, 0.527);
 }
 .subTaskBox input {
   width: 20%;
@@ -186,7 +191,6 @@ input {
 
 .subTaskBox p {
   width: 70%;
-  background-color: rgb(158, 91, 221);
   color: white;
   padding: 10px 20px;
   border-radius: 15px;

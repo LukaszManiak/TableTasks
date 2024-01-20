@@ -13,8 +13,8 @@ function AddNewTask() {
     title: "",
     description: "",
     subtasks: [
-      { subVal: "", subId: new Date().getTime() + 1 },
-      { subVal: "", subId: new Date().getTime() + 2 },
+      { subVal: "", subId: new Date().getTime() + 1, checkedSub: false },
+      { subVal: "", subId: new Date().getTime() + 2, checkedSub: false },
     ],
     type: "",
     id: new Date().getTime(),
@@ -40,7 +40,10 @@ function AddNewTask() {
   function addSubtask() {
     setTask({
       ...task,
-      subtasks: [...task.subtasks, { subVal: "", subId: new Date().getTime() }],
+      subtasks: [
+        ...task.subtasks,
+        { subVal: "", subId: new Date().getTime(), checkedSub: false },
+      ],
     });
   }
 
@@ -62,8 +65,8 @@ function AddNewTask() {
       title: "",
       description: "",
       subtasks: [
-        { subVal: "", subId: new Date().getTime() + 1 },
-        { subVal: "", subId: new Date().getTime() + 2 },
+        { subVal: "", subId: new Date().getTime() + 1, checkedSub: false },
+        { subVal: "", subId: new Date().getTime() + 2, checkedSub: false },
       ],
       type: "",
       id: "",
@@ -96,7 +99,12 @@ function AddNewTask() {
             placeholder="e.g Make coffe..."
             onChange={(e) => handleSubValChange(e, subTask)}
           />
-          <button onClick={() => deleteSubTask(subTask.subId)}>X</button>
+          <Button
+            className="deleteSubTask"
+            onClick={() => deleteSubTask(subTask.subId)}
+          >
+            X
+          </Button>
         </div>
       ))}
 
