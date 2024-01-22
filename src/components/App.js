@@ -12,22 +12,26 @@ function App() {
   const { isNewTaskOpen, isNewTableOpen, isTaskSelected } = useTable();
 
   return (
-    <div className="app">
-      <NavBar />
-      <AllTables />
-      <Table />
-      {isNewTaskOpen && <AddNewTask />}
-      {isNewTableOpen && <AddNewTable />}
-      {isTaskSelected && <TaskBox />}
-      {(isNewTableOpen || isNewTaskOpen || isTaskSelected) && (
-        <div className="dark-bg"></div>
-      )}
-    </div>
+    <>
+      <div className="entry-slide"></div>
+      <div className="app">
+        <NavBar />
+        <AllTables />
+        <Table />
+        {isNewTaskOpen && <AddNewTask />}
+        {isNewTableOpen && <AddNewTable />}
+        {isTaskSelected && <TaskBox />}
+        {(isNewTableOpen || isNewTaskOpen || isTaskSelected) && (
+          <div className="dark-bg"></div>
+        )}
+      </div>
+    </>
   );
 }
 
 function AllTables() {
   const { dispatch, tables, selectedTable } = useTable();
+
   return (
     <div className="allTables">
       <p>ALL TABLES ({tables?.length})</p>
@@ -128,8 +132,16 @@ function TaskBox() {
 
   const [subtasks, setSubtasks] = useState(currTask.subtasks);
 
-  // function handleCheckedChange(id) {}
+  // handle checked task change
+  function handleCheckedChange(id) {
+    console.log(currTask, id);
+    dispatch({
+      type: "subtaskUpdate",
+      payload: { taskId: currTask.id, subtaskId: id },
+    });
+  }
 
+  // handle task type change
   function handleTypeChange(e) {
     e.preventDefault();
 
@@ -139,6 +151,20 @@ function TaskBox() {
       payload: { ...currTask, type: e.target.value },
     });
   }
+
+  // function handleTypeChange(e) {
+  //   e.preventDefault();
+
+  //   dispatch({
+  //     type: "updateTaskType",
+  //     payload: {
+  //       taskId: currTask.id,
+  //       taskType: currTask.type,
+  //       newType: e.target.value,
+  //     },
+  //   });
+  // }
+
   useEffect(function () {
     const newSubTasks = subtasks.filter((subTask) => subTask.subVal !== "");
     setSubtasks(newSubTasks);
@@ -149,11 +175,11 @@ function TaskBox() {
       <h2>{currTask.title}</h2>
       <p>{currTask.description}</p>
 
-      <p>Subtasks (0 of {subtasks?.length || 0})</p>
+      {subtasks.length === 0 ? "" : <p>Subtasks (0 of {subtasks.length})</p>}
       {subtasks?.map((subTask) => (
         <div className="subTaskBox" key={subTask.subId}>
           <input
-            // onChange={() => handleCheckedChange(subTask.subId)}
+            onChange={() => handleCheckedChange(subTask.subId)}
             type="checkbox"
           />{" "}
           <p>{subTask.subVal}</p>

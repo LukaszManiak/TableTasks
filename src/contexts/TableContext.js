@@ -82,6 +82,10 @@ function reducer(state, action) {
         return state;
       }
 
+    // update task type
+    // case "updateTaskType":
+    //   const { taskId, taskType, newType } = action.payload;
+
     // add table
     case "addTable":
       const tableTitle = action.payload.title;

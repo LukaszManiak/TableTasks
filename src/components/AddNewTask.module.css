@@ -22,6 +22,14 @@
   padding: 30px;
 }
 
+.taskTextArea {
+  resize: vertical;
+  width: 90%;
+  border-radius: 15px;
+  padding: 15px;
+  height: auto;
+}
+
 .subBox {
   width: 100%;
   gap: 20px;

@@ -86,11 +86,12 @@ function AddNewTask() {
         onChange={(e) => setTask({ ...task, title: e.target.value })}
       />
       <h3>Description</h3>
-      <input
+      <textarea
+        className={styles["taskTextArea"]}
         placeholder="Description"
         value={task.description}
         onChange={(e) => setTask({ ...task, description: e.target.value })}
-      />
+      ></textarea>
       <h4>Subtasks</h4>
       {task.subtasks?.map((subTask) => (
         <div className={styles["subBox"]} key={subTask.subId}>
