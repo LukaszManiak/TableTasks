@@ -227,7 +227,7 @@ function TableProvider({ children }) {
         payload: tables[tables.length - 1]?.title,
       });
     },
-    [tables.length]
+    [tables]
   );
 
   // setting localStorage
