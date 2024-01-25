@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useReducer } from "react";
+import { createContext, memo, useContext, useEffect, useReducer } from "react";
 
 // creating table context
 const TableContext = createContext();
@@ -227,7 +227,7 @@ function TableProvider({ children }) {
         payload: tables[tables.length - 1]?.title,
       });
     },
-    [tables]
+    [tables.length]
   );
 
   // setting localStorage
