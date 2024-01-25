@@ -1,4 +1,4 @@
-import { createContext, memo, useContext, useEffect, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 
 // creating table context
 const TableContext = createContext();
@@ -219,16 +219,15 @@ function TableProvider({ children }) {
     dispatch,
   ] = useReducer(reducer, savedData);
 
-  // effect that selects the newly created table
-  useEffect(
-    function () {
-      dispatch({
-        type: "tableSelection",
-        payload: tables[tables.length - 1]?.title,
-      });
-    },
-    [tables.length]
-  );
+  // selecting new created table
+  let tableTitle = tables[tables.length - 1]?.title;
+
+  useEffect(() => {
+    dispatch({
+      type: "tableSelection",
+      payload: tableTitle,
+    });
+  }, [tableTitle]);
 
   // setting localStorage
   useEffect(
