@@ -7,13 +7,18 @@ TableTasks is a feature-rich todo application that empowers users with a wide ra
 ## Table of contents
 
 - [Overview](#overview)
-  - [The challenge](#the-challenge)
   - [Links](#links)
+  - [The challenge](#the-challenge)
   - [Built with](#built-with)
 - [Author](#author)
 - [Screenshot](#screenshot)
 
 ## Overview
+
+### Links
+
+- Solution URL: [GitHub](https://github.com/LukaszManiak/TableTasks)
+- Live Site URL: [Netlify](https://tabletasks.netlify.app/)
 
 ### The challenge
 
@@ -27,11 +32,6 @@ As a user you should be able to:
 - Mark subtasks as complete and move certain tasks between each table column
 - Handle all changes inside local storage.
 - Toggle the color scheme between dark and light mode
-
-### Links
-
-<!-- - Solution URL: [GitHub](https://github.com/LukaszManiak/Frontend-Mentor-REST-Countries)
-- Live Site URL: [Netlify](https://lukas-rest-countries.netlify.app/) -->
 
 ### Built with
 
