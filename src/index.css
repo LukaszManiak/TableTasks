@@ -22,9 +22,9 @@ html,
 
 html {
   font-size: 14px;
-  transition: all ease-in-out 0.25s;
 }
 
+/* transition: all ease-in-out 0.25s; */
 body {
   /* overflow: hidden; */
   color: white;

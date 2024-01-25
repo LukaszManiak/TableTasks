@@ -26,7 +26,7 @@ As a user you should be able to:
 - Receive a message when you do something wrong
 - Mark subtasks as complete and move certain tasks between each table column
 - Handle all changes inside local storage.
-- Toggle the color scheme between light and dark mode
+- Toggle the color scheme between dark and light mode
 
 ### Links
 

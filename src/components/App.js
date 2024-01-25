@@ -165,10 +165,13 @@ function TaskBox() {
   //   });
   // }
 
-  useEffect(function () {
-    const newSubTasks = subtasks.filter((subTask) => subTask.subVal !== "");
-    setSubtasks(newSubTasks);
-  }, []);
+  useEffect(
+    function () {
+      const newSubTasks = subtasks.filter((subTask) => subTask.subVal !== "");
+      setSubtasks(newSubTasks);
+    },
+    [subtasks]
+  );
 
   return (
     <div className="taskBox">
