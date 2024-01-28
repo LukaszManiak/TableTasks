@@ -6,6 +6,7 @@ import Message from "./Message";
 import AddNewTable from "./AddNewTable";
 import AddNewTask from "./AddNewTask";
 import NavBar from "./Navbar";
+import TableItem from "./TableItem";
 import { useEffect, useState } from "react";
 
 function App() {
@@ -110,19 +111,6 @@ function Table() {
           </div>
         </>
       )}
-    </div>
-  );
-}
-
-function TableItem({ task }) {
-  const { dispatch } = useTable();
-  return (
-    <div
-      className="tableItem"
-      onClick={() => dispatch({ type: "taskSelection", payload: task })}
-    >
-      <p>{task.title}</p>
-      {/* <p>0 of 3 done</p> */}
     </div>
   );
 }

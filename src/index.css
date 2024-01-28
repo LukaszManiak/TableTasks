@@ -121,21 +121,6 @@ input {
   gap: 20px;
 }
 
-.tableItem {
-  width: 100%;
-  padding: 15px 30px;
-  background-color: var(--darkBlue);
-  box-shadow: 0px 3px 0px 2px var(--veryLightGray);
-
-  display: flex;
-  align-items: center;
-
-  margin-top: 10px;
-  border-radius: 5px;
-
-  cursor: pointer;
-}
-
 .taskBox {
   width: 400px;
   height: auto;
@@ -253,10 +238,6 @@ input {
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
-  }
-
-  .tableItem {
-    width: auto;
   }
 
   .taskBox {
