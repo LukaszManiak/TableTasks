@@ -144,6 +144,42 @@
   color: rgb(158, 91, 221);
 }
 
+.addNote {
+  background-color: var(--seaBlue);
+  color: white;
+
+  width: 30px;
+  height: 30px;
+
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+
+  transition: all ease-in-out 0.15s;
+}
+
+.addNote:hover {
+  background-color: white;
+  color: var(--seaBlue);
+}
+
+.deleteNote {
+  background-color: rgb(207, 52, 52);
+  color: white;
+
+  width: 30px;
+  height: 30px;
+
+  border: none;
+  border-radius: 50%;
+
+  cursor: pointer;
+  transition: all ease-in-out 0.15s;
+}
+.deleteNote:hover {
+  background-color: rgb(248, 61, 61);
+}
+
 @media (max-width: 968px) {
   .modeToggle,
   .restartApp {

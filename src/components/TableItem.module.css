@@ -5,7 +5,8 @@
   box-shadow: 0px 3px 0px 2px var(--veryLightGray);
 
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  flex-direction: column;
 
   margin-top: 10px;
   border-radius: 5px;

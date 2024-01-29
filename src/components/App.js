@@ -82,7 +82,36 @@ function Table() {
       )}
       {selectedTable && (
         <>
-          <h2>{selectedTable}</h2>
+          <div className="tableTitleNotes">
+            <h2>{selectedTable}</h2>
+
+            <div className="addNotes">
+              <input placeholder="Add note..." />
+              <Button className="addNote">+</Button>
+            </div>
+            <div className="notesBox">
+              <div className="note">
+                <p>
+                  dwadhawjhbfdaw ujfbawifawdwadw adfwaf ugawufgbawufba wdwadh
+                  awjhbfdawujfb awifawdwadwadfwafugawufgbawufba wdwa
+                  dhawjhbfdawujfbawifawdwa dwadfwafug awufgbawuf
+                  bawdwadhawjhbfdaw ujfbawifawdwadwadfwafugawufgb
+                  awufbawdwadhawjh bfdawujfbawifawd wadwadfwafugawuf gbawu fbaws
+                </p>
+                <Button className="deleteNote">-</Button>
+              </div>
+              <div className="note">
+                <p>
+                  dwadhawjhbfdaw ujfbawifawdwadw adfwaf ugawufgbawufba wdwadh
+                  awjhbfdawujfb awifawdwadwadfwafugawufgbawufba wdwa
+                  dhawjhbfdawujfbawifawdwa dwadfwafug awufgbawuf
+                  bawdwadhawjhbfdaw ujfbawifawdwadwadfwafugawufgb
+                  awufbawdwadhawjh bfdawujfbawifawd wadwadfwafugawuf gbawu fbaws
+                </p>
+                <Button className="deleteNote">-</Button>
+              </div>
+            </div>
+          </div>
           <div>
             <div>TODO ({tables[tableIndex]?.todoTasks?.length || 0})</div>
             <div className="tableItems">

@@ -7,7 +7,7 @@ import Button from "./Button";
 
 export default // add new table modal
 function AddNewTable() {
-  const { dispatch } = useTable();
+  const { dispatch, tables } = useTable();
   // task state
   const [table, setTable] = useState({
     title: "",
@@ -35,9 +35,11 @@ function AddNewTable() {
     // close table modal form
     dispatch({ type: "newTableOpen" });
   }
-
   return (
-    <div className={styles["addNewTableModal"]}>
+    <form
+      className={styles["addNewTableModal"]}
+      onSubmit={() => dispatch({ type: "newTableOpen" })}
+    >
       <h1>Add New Table</h1>
 
       <label htmlFor="title">Table Title</label>
@@ -50,13 +52,10 @@ function AddNewTable() {
         <Button className="addButton" onClick={() => handleTableSubmit()}>
           Add Table
         </Button>
-        <Button
-          className="closeButton"
-          onClick={() => dispatch({ type: "newTableOpen" })}
-        >
+        <Button className="closeButton" type="submit">
           Close
         </Button>
       </div>
-    </div>
+    </form>
   );
 }

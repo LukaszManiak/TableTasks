@@ -8,7 +8,7 @@ export default function TableItem({ task }) {
       onClick={() => dispatch({ type: "taskSelection", payload: task })}
     >
       <p>{task.title}</p>
-      {/* <p>0 of 3 done</p> */}
+      <p>0 of {task.subtasks.length} done</p>
     </div>
   );
 }

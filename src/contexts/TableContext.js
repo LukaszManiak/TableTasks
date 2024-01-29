@@ -98,6 +98,7 @@ function reducer(state, action) {
       return {
         ...state,
         tables: [...state.tables, action.payload],
+        selectedTable: tableTitle,
       };
     // table selection
     case "tableSelection":
@@ -219,15 +220,14 @@ function TableProvider({ children }) {
     dispatch,
   ] = useReducer(reducer, savedData);
 
-  // selecting new created table
-  let tableTitle = tables[tables.length - 1]?.title;
+  // // selecting new created table
+  // useEffect(() => {
 
-  useEffect(() => {
-    dispatch({
-      type: "tableSelection",
-      payload: tableTitle,
-    });
-  }, [tableTitle]);
+  //   dispatch({
+  //     type: "newTableSelection",
+  //     payload: tables[tables.length - 1]?.title,
+  //   });
+  // }, [tables]);
 
   // setting localStorage
   useEffect(
