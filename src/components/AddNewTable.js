@@ -7,7 +7,7 @@ import Button from "./Button";
 
 export default // add new table modal
 function AddNewTable() {
-  const { dispatch, tables } = useTable();
+  const { dispatch } = useTable();
   // task state
   const [table, setTable] = useState({
     title: "",
