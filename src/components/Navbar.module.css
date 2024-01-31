@@ -1,6 +1,5 @@
 .navBar {
-  height: 10%;
-  padding: 0 10%;
+  padding: 1% 10%;
 
   border-bottom: solid 1px var(--veryDarkBlue);
   background-color: var(--darkBlue);
