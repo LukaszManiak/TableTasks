@@ -15,7 +15,7 @@ const initialState = {
   // task selection
   isTaskSelected: false,
   currTask: null,
-  mode: "dark",
+  mode: "light",
 };
 
 function reducer(state, action) {
@@ -192,12 +192,9 @@ function reducer(state, action) {
     //working version of mode toggler
     case "toggleMode":
       const newMode = state.mode === "dark" ? "light" : "dark";
+      const htmlElement = document.documentElement;
 
-      if (newMode === "dark") {
-        document.documentElement.classList.add("invertMode");
-      } else {
-        document.documentElement.classList.remove("invertMode");
-      }
+      htmlElement.dataset.theme = newMode;
 
       return { ...state, mode: newMode };
     default:
@@ -228,6 +225,12 @@ function TableProvider({ children }) {
   //     payload: tables[tables.length - 1]?.title,
   //   });
   // }, [tables]);
+
+  useEffect(() => {
+    dispatch({
+      type: "toggleMode",
+    });
+  }, []);
 
   // setting localStorage
   useEffect(

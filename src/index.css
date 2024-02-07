@@ -1,33 +1,35 @@
-@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,300;6..12,500;6..12,600;6..12,800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&display=swap");
 
-:root {
-  /* dark mode */
-  --seaBlue: hsl(208, 73%, 44%);
-  --darkBlue: hsl(209, 23%, 22%);
-  --veryDarkBlue: hsl(207, 26%, 17%);
-  /* light mode */
-  --veryDarkBlueLight: hsl(200, 15%, 8%);
-  --darkGray: hsl(0, 0%, 52%);
-  --veryLightGray: hsl(0, 0%, 98%);
-  /* Dark Mode Text & Light Mode Elements */
-  --white: hsl(0, 0%, 100%);
+:root[data-theme="light"] {
+  --text: #0f0f0f;
+  --background: #f9fafb;
+  --primary: #5162b3;
+  --secondary: #8f9be0;
+  --accent: #546de8;
+}
+:root[data-theme="dark"] {
+  --text: #f0f0f0;
+  --background: #040506;
+  --primary: #4c5cae;
+  --secondary: #1f2b70;
+  --accent: #1730ab;
 }
 
 html,
 * {
-  font-family: "Nunito Sans", sans-serif;
+  font-family: "Noto Sans", sans-serif;
   margin: 0;
   padding: 0;
+  background-color: var(--background);
 }
-
 html {
-  font-size: 14px;
+  font-size: 64.5%;
 }
 
 /* transition: all ease-in-out 0.25s; */
 body {
   /* overflow: hidden; */
-  color: white;
+  color: var(--text);
 }
 
 input {
@@ -37,10 +39,6 @@ input {
   border: none;
   box-sizing: border-box;
   border-radius: 15px;
-}
-
-.invertMode {
-  filter: invert(100%);
 }
 
 .app {
@@ -58,8 +56,6 @@ input {
   flex-direction: column;
   justify-content: flex-start;
   gap: 10px;
-
-  background-color: var(--darkBlue);
 }
 .allTables ul {
   list-style: none;
@@ -79,7 +75,7 @@ input {
 
   padding: 5px;
 
-  border: solid 2px var(--seaBlue);
+  border: solid 2px var(--text);
   border-radius: 15px;
   transition: all ease-in-out 0.15s;
 }
@@ -90,16 +86,16 @@ input {
 }
 
 .allTables ul li p:hover {
-  background-color: var(--seaBlue);
-  color: white;
+  background-color: var(--text);
+  color: var(--text);
 }
 .allTables ul li.selected p,
 .allTables ul li.selected button {
-  background-color: rgb(158, 91, 221);
-  color: var(--white);
+  background-color: var(--primary);
+  color: var(--text);
 }
 .allTables ul li.selected {
-  border: solid 2px rgb(158, 91, 221);
+  border: solid 2px var(--primary);
 }
 
 .table {
