@@ -1,18 +1,18 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&display=swap");
 
 :root[data-theme="light"] {
-  --text: #0f0f0f;
-  --background: #f9fafb;
-  --primary: #5162b3;
-  --secondary: #8f9be0;
-  --accent: #546de8;
+  --text: #081c21;
+  --background: #e7f6f9;
+  --primary: #1d6777;
+  --secondary: #848fe1;
+  --accent: #3b2db9;
 }
 :root[data-theme="dark"] {
-  --text: #f0f0f0;
-  --background: #040506;
-  --primary: #4c5cae;
-  --secondary: #1f2b70;
-  --accent: #1730ab;
+  --text: #def2f7;
+  --background: #061518;
+  --primary: #88d2e2;
+  --secondary: #1e297b;
+  --accent: #5446d2;
 }
 
 html,
@@ -23,13 +23,43 @@ html,
   background-color: var(--background);
 }
 html {
-  font-size: 64.5%;
+  font-size: 100%;
 }
 
 /* transition: all ease-in-out 0.25s; */
 body {
   /* overflow: hidden; */
   color: var(--text);
+  font-weight: 400;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: "Noto Sans", sans-serif;
+  font-weight: 700;
+}
+
+h1 {
+  font-size: 3.366rem; /* 53.92px */
+}
+
+h2 {
+  font-size: 2.525rem; /* 40.32px */
+}
+
+h3 {
+  font-size: 1.894rem; /* 30.24px */
+}
+
+h4 {
+  font-size: 1.421rem; /* 22.72px */
+}
+
+h5 {
+  font-size: 1.066rem; /* 17.12px */
 }
 
 input {
@@ -87,13 +117,14 @@ input {
 
 .allTables ul li p:hover {
   background-color: var(--text);
-  color: var(--text);
+  color: var(--background);
 }
 .allTables ul li.selected p,
 .allTables ul li.selected button {
   background-color: var(--primary);
-  color: var(--text);
+  color: var(--background);
 }
+
 .allTables ul li.selected {
   border: solid 2px var(--primary);
 }
@@ -119,7 +150,7 @@ input {
   width: 400px;
   height: auto;
   padding: 3rem;
-  background-color: var(--darkBlue);
+  background-color: var(--background);
   border-radius: 25px;
 
   transition: all ease-in-out 0.15s;
@@ -170,7 +201,7 @@ input {
 
 .subTaskBox p {
   width: 70%;
-  color: white;
+  color: var(--text);
   padding: 10px 20px;
   border-radius: 15px;
   opacity: 1;
@@ -225,8 +256,8 @@ input {
   width: 100%;
   height: 100%;
 
-  background-color: black;
-  opacity: 0.7;
+  background-color: var(--text);
+  opacity: 0.8;
   z-index: 5;
 }
 
@@ -240,7 +271,7 @@ input {
   height: 100%;
 
   z-index: 100;
-  background-color: var(--seaBlue);
+  background-color: var(--background);
 
   animation: entry 0.6s ease-in forwards;
 }
@@ -255,6 +286,10 @@ input {
 }
 
 @media (max-width: 968px) {
+  html {
+    font-size: 62.4%;
+  }
+
   .allTables {
     padding: 3% 5% 3% 5%;
     padding-bottom: 20px;

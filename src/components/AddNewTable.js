@@ -37,13 +37,14 @@ function AddNewTable() {
   }
   return (
     <form
-      className={styles["addNewTableModal"]}
+      className={styles.addNewTableModal}
       onSubmit={() => dispatch({ type: "newTableOpen" })}
     >
       <h1>Add New Table</h1>
 
       <label htmlFor="title">Table Title</label>
       <input
+        className={styles.input}
         placeholder="Store website things"
         value={table.title}
         onChange={(e) => setTable({ ...table, title: e.target.value })}

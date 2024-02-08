@@ -1,8 +1,8 @@
 .tableItem {
   width: 100%;
   padding: 15px 30px;
-  background-color: var(--darkBlue);
-  box-shadow: 0px 3px 0px 2px var(--veryLightGray);
+  border: solid 2px var(--text);
+  box-shadow: 0px 3px 0px 2px var(--text);
 
   display: flex;
   align-items: flex-start;

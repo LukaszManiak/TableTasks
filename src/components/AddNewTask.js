@@ -81,13 +81,14 @@ function AddNewTask() {
       <h1>Add New Task</h1>
       <h2>Title</h2>
       <input
+        className={styles.taskInput}
         placeholder="Platform setup"
         value={task.title}
         onChange={(e) => setTask({ ...task, title: e.target.value })}
       />
       <h3>Description</h3>
       <textarea
-        className={styles["taskTextArea"]}
+        className={styles.taskTextArea}
         placeholder="Description"
         value={task.description}
         onChange={(e) => setTask({ ...task, description: e.target.value })}
@@ -96,6 +97,7 @@ function AddNewTask() {
       {task.subtasks?.map((subTask) => (
         <div className={styles["subBox"]} key={subTask.subId}>
           <input
+            className={styles.taskInput}
             value={subTask.subVal}
             placeholder="e.g Make coffe..."
             onChange={(e) => handleSubValChange(e, subTask)}

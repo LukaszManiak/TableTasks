@@ -8,7 +8,7 @@
   width: 400px;
   height: auto;
 
-  background-color: var(--veryDarkBlueLight);
+  background-color: var(--background);
 
   display: flex;
   flex-direction: column;
@@ -24,6 +24,7 @@
 
 .taskTextArea {
   resize: vertical;
+  border: solid 2px var(--primary);
   width: 90%;
   border-radius: 15px;
   padding: 15px;
@@ -36,6 +37,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.taskInput {
+  border: solid 2px var(--primary);
 }
 
 @media (max-width: 968px) {

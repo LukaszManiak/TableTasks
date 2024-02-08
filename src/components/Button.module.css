@@ -1,32 +1,38 @@
 .addButton {
   padding: 10px 20px;
   border-radius: 20px;
-  border: none;
-  background-color: rgb(158, 91, 221);
-  color: white;
+  border: solid 2px var(--primary);
+  background-color: var(--primary);
+  color: var(--text);
+
+  font-weight: 600;
 
   transition: all ease-in-out 0.15s;
   cursor: pointer;
 }
 .addButton:hover {
-  color: rgb(158, 91, 221);
-  background-color: white;
+  color: var(--primary);
+  background-color: var(--text);
+  border: solid 2px var(--text);
 }
 
 .closeButton {
   padding: 10px 20px;
   border-radius: 20px;
   border: none;
-  background-color: var(--veryLightGray);
-  color: var(--veryDarkBlue);
+  background-color: var(--secondary);
+  color: var(--text);
+  border: solid 2px var(--secondary);
+
+  font-weight: 600;
 
   cursor: pointer;
 
   transition: all ease-in-out 0.15s;
 }
 .closeButton:hover {
-  background-color: var(--veryDarkBlue);
-  color: var(--veryLightGray);
+  background-color: transparent;
+  color: var(--text);
 }
 
 .deleteTask {
@@ -47,11 +53,12 @@
 
 .restartApp {
   padding: 10px 20px;
-  border-radius: 20px;
+  border-radius: 25px;
   border: none;
-  background-color: rgb(158, 91, 221);
-  color: white;
+  background-color: var(--secondary);
+  color: var(--text);
 
+  border: solid 2px var(--text);
   margin-left: 10px;
 
   transition: all ease-in-out 0.15s;
@@ -59,15 +66,15 @@
 }
 
 .restartApp:hover {
-  color: rgb(158, 91, 221);
-  background-color: white;
+  box-shadow: 3px 5px 0px 0px var(--text);
 }
 
 .addTask {
   padding: 10px 20px;
-  background-color: var(--seaBlue);
-  color: white;
-  border: none;
+  border: solid 2px var(--text);
+  background-color: var(--accent);
+  color: var(--background);
+
   border-radius: 25px;
   cursor: pointer;
 
@@ -75,7 +82,7 @@
 }
 
 .addTask:hover {
-  box-shadow: 0px 3px 0px 1px var(--veryLightGray);
+  box-shadow: 3px 5px 0px 0px var(--text);
 }
 
 .addNewTable {
@@ -90,14 +97,14 @@
   padding: 10px 20px;
   border-radius: 25px;
   border: none;
-  background-color: var(--seaBlue);
-  color: white;
+  background-color: var(--background);
+  color: var(--text);
   transition: all ease-in-out 0.15s;
   cursor: pointer;
 }
 .deleteTable:hover {
-  background-color: white;
-  color: var(--seaBlue);
+  background-color: var(--text);
+  color: var(--background);
 }
 
 .modeToggle {
@@ -106,8 +113,13 @@
   border: none;
   cursor: pointer;
   margin-left: 10px;
-  background-color: white;
-  color: var(--seaBlue);
+  border: solid 2px var(--text);
+  color: var(--text);
+
+  transition: all ease-in-out 0.15s;
+}
+.modeToggle:hover {
+  box-shadow: 3px 5px 0px 0px var(--text);
 }
 
 .addSubtask {
@@ -115,16 +127,15 @@
   padding: 10px 20px;
   border-radius: 20px;
   border: none;
-  background-color: rgb(158, 91, 221);
-  color: white;
+  background-color: var(--primary);
+  color: var(--background);
 
   transition: all ease-in-out 0.15s;
   cursor: pointer;
 }
 
 .addSubtask:hover {
-  color: rgb(158, 91, 221);
-  background-color: white;
+  opacity: 0.8;
 }
 
 .deleteSubTask {
@@ -135,13 +146,9 @@
   border: none;
   background-color: transparent;
 
-  color: white;
+  color: var(--primary);
 
   cursor: pointer;
-}
-
-.deleteSubTask:hover {
-  color: rgb(158, 91, 221);
 }
 
 .addNote {
