@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useTable } from "../contexts/TableContext";
-import Button from "./Button";
+import { useTable } from "../../contexts/TableContext";
+import Button from "../UI/Button";
 
 function AddNotesForm() {
   const { dispatch } = useTable();

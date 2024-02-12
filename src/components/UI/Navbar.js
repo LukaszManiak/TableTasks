@@ -1,4 +1,4 @@
-import { useTable } from "../contexts/TableContext";
+import { useTable } from "../../contexts/TableContext";
 import styles from "./Navbar.module.css";
 
 import Button from "./Button";

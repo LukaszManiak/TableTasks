@@ -1,17 +1,16 @@
 import { useTable } from "../contexts/TableContext";
 
 // components
-import Button from "./Button";
-import Message from "./Message";
-import AddNewTable from "./AddNewTable";
-import AddNewTask from "./AddNewTask";
-import NavBar from "./Navbar";
-import TableItem from "./TableItem";
-import AllTablesList from "./AllTablesList";
-import { useEffect, useState } from "react";
-import Note from "./Note";
-import AddNotesForm from "./AddNotesForm";
-import NotesList from "./NotesList";
+import Button from "./UI/Button";
+import Message from "./UI/Message";
+import AddNewTable from "./Forms/AddNewTable";
+import AddNewTask from "./Forms/AddNewTask";
+import NavBar from "./UI/Navbar";
+import TableItem from "./Tables/TableItem";
+import AllTablesList from "./Tables/AllTablesList";
+
+import AddNotesForm from "./Forms/AddNotesForm";
+import NotesList from "./Notes/NotesList";
 
 function App() {
   const { isNewTaskOpen, isNewTableOpen, isTaskSelected } = useTable();

@@ -1,9 +1,9 @@
 import styles from "./AddNewTable.module.css";
 
 import { useState } from "react";
-import { useTable } from "../contexts/TableContext";
+import { useTable } from "../../contexts/TableContext";
 
-import Button from "./Button";
+import Button from "../UI/Button";
 
 export default // add new table modal
 function AddNewTable() {

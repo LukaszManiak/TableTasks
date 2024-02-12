@@ -1,9 +1,9 @@
 import styles from "./AddNewTask.module.css";
 
-import { useEffect, useState } from "react";
-import { useTable } from "../contexts/TableContext";
+import { useState } from "react";
+import { useTable } from "../../contexts/TableContext";
 
-import Button from "./Button";
+import Button from "../UI/Button";
 
 export default // add new task modal
 function AddNewTask() {

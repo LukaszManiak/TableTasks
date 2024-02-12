@@ -1,4 +1,4 @@
-import { useTable } from "../contexts/TableContext";
+import { useTable } from "../../contexts/TableContext";
 import Note from "./Note";
 
 function NotesList() {

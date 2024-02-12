@@ -1,6 +1,6 @@
-import { useTable } from "../contexts/TableContext";
+import { useTable } from "../../contexts/TableContext";
 import styles from "./AllTablesList.module.css";
-import Button from "./Button";
+import Button from "../UI/Button";
 
 function AllTablesList() {
   const { dispatch, tables, selectedTable } = useTable();

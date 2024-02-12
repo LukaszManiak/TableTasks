@@ -1,4 +1,4 @@
-import { useTable } from "../contexts/TableContext";
+import { useTable } from "../../contexts/TableContext";
 import styles from "./TableItem.module.css";
 export default function TableItem({ task }) {
   const { dispatch } = useTable();
