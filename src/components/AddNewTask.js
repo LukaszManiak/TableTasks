@@ -1,6 +1,6 @@
 import styles from "./AddNewTask.module.css";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTable } from "../contexts/TableContext";
 
 import Button from "./Button";
@@ -13,8 +13,8 @@ function AddNewTask() {
     title: "",
     description: "",
     subtasks: [
-      { subVal: "", subId: new Date().getTime() + 1, checkedSub: false },
-      { subVal: "", subId: new Date().getTime() + 2, checkedSub: false },
+      { subVal: "", subId: Date.now() + Math.random(), checkedSub: false },
+      { subVal: "", subId: Date.now() + Math.random() + 1, checkedSub: false },
     ],
     type: "",
     id: new Date().getTime(),
@@ -42,7 +42,7 @@ function AddNewTask() {
       ...task,
       subtasks: [
         ...task.subtasks,
-        { subVal: "", subId: new Date().getTime(), checkedSub: false },
+        { subVal: "", subId: Date.now() + Math.random(), checkedSub: false },
       ],
     });
   }
@@ -57,8 +57,11 @@ function AddNewTask() {
 
   // handling task inputs clear
   function handleTaskSubmit() {
+    const newSubTasks = task.subtasks.filter(
+      (subTask) => subTask.subVal !== ""
+    );
     // add task
-    dispatch({ type: "addTask", payload: task });
+    dispatch({ type: "addTask", payload: { ...task, subtasks: newSubTasks } });
 
     // reset task state
     setTask({

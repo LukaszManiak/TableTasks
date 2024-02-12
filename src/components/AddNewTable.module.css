@@ -8,6 +8,7 @@
   width: 300px;
   height: 400px;
 
+  border: solid 3px var(--text);
   background-color: var(--background);
 
   display: flex;

@@ -1,0 +1,50 @@
+.allTables {
+  height: auto;
+  padding: 1% 10%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 10px;
+}
+.allTables ul {
+  list-style: none;
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.allTables ul li {
+  margin-right: 10px;
+  cursor: pointer;
+  text-align: center;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 5px;
+
+  border: solid 2px var(--text);
+  border-radius: 15px;
+  transition: all ease-in-out 0.15s;
+}
+.allTables ul li p {
+  padding: 10px 30px;
+  border-radius: 15px;
+  transition: all ease-in-out 0.15s;
+}
+
+.allTables ul li p:hover {
+  background-color: var(--text);
+  color: var(--background);
+}
+.allTables ul li.selected p,
+.allTables ul li.selected button {
+  background-color: var(--primary);
+  color: var(--background);
+}
+
+.allTables ul li.selected {
+  border: solid 2px var(--primary);
+}

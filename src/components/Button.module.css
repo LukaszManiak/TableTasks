@@ -38,7 +38,7 @@
 .deleteTask {
   padding: 10px 20px;
   border-radius: 20px;
-  border: none;
+  border: solid 2px rgb(207, 52, 52);
   background-color: rgb(207, 52, 52);
   color: white;
 

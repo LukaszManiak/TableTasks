@@ -7,8 +7,11 @@ import AddNewTable from "./AddNewTable";
 import AddNewTask from "./AddNewTask";
 import NavBar from "./Navbar";
 import TableItem from "./TableItem";
+import AllTablesList from "./AllTablesList";
 import { useEffect, useState } from "react";
 import Note from "./Note";
+import AddNotesForm from "./AddNotesForm";
+import NotesList from "./NotesList";
 
 function App() {
   const { isNewTaskOpen, isNewTableOpen, isTaskSelected } = useTable();
@@ -18,7 +21,7 @@ function App() {
       <div className="entry-slide"></div>
       <div className="app">
         <NavBar />
-        <AllTables />
+        <AllTablesList />
         <Table />
         {isNewTaskOpen && <AddNewTask />}
         {isNewTableOpen && <AddNewTable />}
@@ -31,60 +34,8 @@ function App() {
   );
 }
 
-function AllTables() {
-  const { dispatch, tables, selectedTable } = useTable();
-
-  return (
-    <div className="allTables">
-      <p>ALL TABLES ({tables?.length})</p>
-      <ul>
-        {tables.map((table, i) => (
-          <li
-            className={selectedTable === tables[i].title ? "selected" : ""}
-            onClick={() =>
-              dispatch({ type: "tableSelection", payload: tables[i].title })
-            }
-            key={i}
-          >
-            <p>{table.title}</p>
-            <Button
-              className="deleteTable"
-              onClick={() =>
-                dispatch({ type: "tableDelete", payload: table.id })
-              }
-            >
-              X
-            </Button>
-          </li>
-        ))}
-      </ul>
-      <Button
-        className="addNewTable"
-        onClick={() => dispatch({ type: "newTableOpen" })}
-      >
-        +Add New Table
-      </Button>
-    </div>
-  );
-}
-
 function Table() {
-  const { dispatch, selectedTable, tables } = useTable();
-
-  const [note, setNote] = useState("");
-
-  function handleNoteChange(e) {
-    e.preventDefault();
-    setNote(e.target.value);
-  }
-
-  function handleAddNote() {
-    dispatch({
-      type: "addNote",
-      payload: { text: note, id: Date.now() + Math.random() },
-    });
-    setNote("");
-  }
+  const { selectedTable, tables } = useTable();
 
   const tableIndex = tables.findIndex((t) => t.title === selectedTable);
 
@@ -101,32 +52,8 @@ function Table() {
           <div className="tableTitleNotes">
             <h2>{selectedTable}</h2>
 
-            <div className="addNotes">
-              <input
-                onChange={(e) => handleNoteChange(e)}
-                className="noteInput"
-                placeholder="Add note..."
-                value={note}
-              />
-              <Button onClick={() => handleAddNote()} className="addNote">
-                +
-              </Button>
-            </div>
-            <div className="notesBox">
-              <div className="note">
-                <p>
-                  dwadhawjhbfdaw ujfbawifawdwadw adfwaf ugawufgbawufba wdwadh
-                  awjhbfdawujfb awifawdwadwadfwafugawufgbawufba wdwa
-                  dhawjhbfdawujfbawifawdwa dwadfwafug awufgbawuf
-                  bawdwadhawjhbfdaw ujfbawifawdwadwadfwafugawufgb
-                  awufbawdwadhawjh bfdawujfbawifawd wadwadfwafugawuf gbawu fbaws
-                </p>
-                <Button className="deleteNote">-</Button>
-              </div>
-              {tables[tableIndex]?.notes?.map((note) => (
-                <Note key={note.id} note={note} />
-              ))}
-            </div>
+            <AddNotesForm />
+            <NotesList />
           </div>
           <div>
             <div>TODO ({tables[tableIndex]?.todoTasks?.length || 0})</div>
@@ -163,8 +90,6 @@ function Table() {
 function TaskBox() {
   const { currTask, dispatch } = useTable();
 
-  const [subtasks, setSubtasks] = useState(currTask.subtasks);
-
   // handle checked task change
   function handleCheckedChange(id) {
     console.log(currTask, id);
@@ -198,21 +123,17 @@ function TaskBox() {
   //   });
   // }
 
-  useEffect(
-    function () {
-      const newSubTasks = subtasks.filter((subTask) => subTask.subVal !== "");
-      setSubtasks(newSubTasks);
-    },
-    [subtasks]
-  );
-
   return (
     <div className="taskBox">
       <h2>{currTask.title}</h2>
       <p>{currTask.description}</p>
 
-      {subtasks.length === 0 ? "" : <p>Subtasks (0 of {subtasks.length})</p>}
-      {subtasks?.map((subTask) => (
+      {currTask.subtasks.length === 0 ? (
+        ""
+      ) : (
+        <p>Subtasks (0 of {currTask.subtasks.length})</p>
+      )}
+      {currTask.subtasks?.map((subTask) => (
         <div className="subTaskBox" key={subTask.subId}>
           <input
             onChange={() => handleCheckedChange(subTask.subId)}
