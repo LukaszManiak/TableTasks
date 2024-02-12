@@ -152,8 +152,8 @@
 }
 
 .addNote {
-  background-color: var(--seaBlue);
-  color: white;
+  background-color: var(--accent);
+  color: var(--background);
 
   width: 30px;
   height: 30px;
@@ -166,8 +166,8 @@
 }
 
 .addNote:hover {
-  background-color: white;
-  color: var(--seaBlue);
+  background-color: var(--accent);
+  color: var(--background);
 }
 
 .deleteNote {

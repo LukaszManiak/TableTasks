@@ -231,8 +231,9 @@ input {
   width: 100%;
 }
 .note {
-  background-color: white;
-  color: var(--darkBlue);
+  background-color: var(--background);
+  border: solid 2px var(--accent);
+  color: var(--text);
 
   padding: 15px;
   border-radius: 15px;
@@ -242,6 +243,10 @@ input {
   justify-content: space-between;
 
   text-wrap: wrap;
+}
+
+.noteInput {
+  border: solid 2px var(--accent);
 }
 
 .note p {

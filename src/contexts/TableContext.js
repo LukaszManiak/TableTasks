@@ -11,7 +11,6 @@ const initialState = {
   //isNewTaskOpen
   isNewTaskOpen: false,
   isNewTableOpen: false,
-
   // task selection
   isTaskSelected: false,
   currTask: null,
@@ -186,6 +185,49 @@ function reducer(state, action) {
 
       return { ...state, tables: newTables };
 
+    // add new note to the table
+    case "addNote":
+      const ourTable = state.tables
+        .map((table) => table.title)
+        .indexOf(state.selectedTable);
+      // checking for tables and selected table
+      if (!state.tables.length || !state.selectedTable) return state;
+
+      return {
+        ...state,
+        tables: state.tables.map((table, i) => {
+          if (i === ourTable) {
+            return {
+              ...table,
+              notes: [...table.notes, { ...action.payload }],
+            };
+          }
+          return table;
+        }),
+      };
+
+    // delete Note
+    case "deleteNote":
+      const currentlySelectedTable = state.tables
+        .map((table) => table.title)
+        .indexOf(state.selectedTable);
+
+      return {
+        ...state,
+        tables: state.tables.map((table, i) => {
+          const newTables = table.notes.filter(
+            (note) => note.id !== action.payload
+          );
+          if (i === currentlySelectedTable) {
+            return {
+              ...table,
+              notes: [...newTables],
+            };
+          }
+          return table;
+        }),
+      };
+
     case "restartApp":
       return { ...initialState };
 
@@ -217,14 +259,13 @@ function TableProvider({ children }) {
     dispatch,
   ] = useReducer(reducer, savedData);
 
-  // // selecting new created table
+  // selecting new created table
   // useEffect(() => {
-
   //   dispatch({
   //     type: "newTableSelection",
   //     payload: tables[tables.length - 1]?.title,
   //   });
-  // }, [tables]);
+  // }, [tables.length]);
 
   useEffect(() => {
     dispatch({

@@ -8,6 +8,7 @@ import AddNewTask from "./AddNewTask";
 import NavBar from "./Navbar";
 import TableItem from "./TableItem";
 import { useEffect, useState } from "react";
+import Note from "./Note";
 
 function App() {
   const { isNewTaskOpen, isNewTableOpen, isTaskSelected } = useTable();
@@ -68,7 +69,22 @@ function AllTables() {
 }
 
 function Table() {
-  const { selectedTable, tables } = useTable();
+  const { dispatch, selectedTable, tables } = useTable();
+
+  const [note, setNote] = useState("");
+
+  function handleNoteChange(e) {
+    e.preventDefault();
+    setNote(e.target.value);
+  }
+
+  function handleAddNote() {
+    dispatch({
+      type: "addNote",
+      payload: { text: note, id: Date.now() + Math.random() },
+    });
+    setNote("");
+  }
 
   const tableIndex = tables.findIndex((t) => t.title === selectedTable);
 
@@ -86,8 +102,15 @@ function Table() {
             <h2>{selectedTable}</h2>
 
             <div className="addNotes">
-              <input placeholder="Add note..." />
-              <Button className="addNote">+</Button>
+              <input
+                onChange={(e) => handleNoteChange(e)}
+                className="noteInput"
+                placeholder="Add note..."
+                value={note}
+              />
+              <Button onClick={() => handleAddNote()} className="addNote">
+                +
+              </Button>
             </div>
             <div className="notesBox">
               <div className="note">
@@ -100,16 +123,9 @@ function Table() {
                 </p>
                 <Button className="deleteNote">-</Button>
               </div>
-              <div className="note">
-                <p>
-                  dwadhawjhbfdaw ujfbawifawdwadw adfwaf ugawufgbawufba wdwadh
-                  awjhbfdawujfb awifawdwadwadfwafugawufgbawufba wdwa
-                  dhawjhbfdawujfbawifawdwa dwadfwafug awufgbawuf
-                  bawdwadhawjhbfdaw ujfbawifawdwadwadfwafugawufgb
-                  awufbawdwadhawjh bfdawujfbawifawd wadwadfwafugawuf gbawu fbaws
-                </p>
-                <Button className="deleteNote">-</Button>
-              </div>
+              {tables[tableIndex]?.notes?.map((note) => (
+                <Note key={note.id} note={note} />
+              ))}
             </div>
           </div>
           <div>

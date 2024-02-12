@@ -68,6 +68,7 @@ function AddNewTask() {
         { subVal: "", subId: new Date().getTime() + 1, checkedSub: false },
         { subVal: "", subId: new Date().getTime() + 2, checkedSub: false },
       ],
+
       type: "",
       id: "",
     });

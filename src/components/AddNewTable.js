@@ -12,6 +12,7 @@ function AddNewTable() {
   const [table, setTable] = useState({
     title: "",
     id: new Date().getTime(),
+    notes: [],
     // table todos
     todoTasks: [],
     inProgress: [],
@@ -27,6 +28,7 @@ function AddNewTable() {
     setTable({
       title: "",
       id: "",
+      notes: [],
       // table todos
       todoTasks: [],
       inProgress: [],
