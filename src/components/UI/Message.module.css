@@ -2,6 +2,7 @@
   align-self: center;
   margin-top: -4%;
   text-align: center;
+  width: 100%;
 }
 
 @media (max-width: 968px) {
