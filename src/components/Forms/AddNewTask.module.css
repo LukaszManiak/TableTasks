@@ -46,6 +46,8 @@
 
 @media (max-width: 968px) {
   .addNewTaskModal {
-    width: 320px;
+    width: 300px;
+    gap: 10px;
+    padding: 12px 24px;
   }
 }
