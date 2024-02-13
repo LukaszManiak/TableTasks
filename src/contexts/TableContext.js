@@ -11,6 +11,8 @@ const initialState = {
   //isNewTaskOpen
   isNewTaskOpen: false,
   isNewTableOpen: false,
+  // something wrong alert
+  wrongAlert: { isShown: false, msg: "" },
   // task selection
   isTaskSelected: false,
   currTask: null,
@@ -35,7 +37,10 @@ function reducer(state, action) {
         .indexOf(state.selectedTable);
 
       // checking for tables and selected table
-      if (!state.tables.length || !state.selectedTable) return state;
+      if (!state.tables.length || !state.selectedTable)
+        return {
+          state,
+        };
 
       if (actionType === "todo") {
         // iterating through all tables and adding given task only to the opened one
@@ -89,10 +94,25 @@ function reducer(state, action) {
     case "addTable":
       const tableTitle = action.payload.title;
       // if the title input is empty return
-      if (tableTitle === "") return state;
+      if (tableTitle === "")
+        return {
+          ...state,
+          wrongAlert: {
+            ...state.wrongAlert,
+            isShown: true,
+            msg: "You cannot add new table without any title! Please try again.",
+          },
+        };
       // if there is already table with the same name return
       if (state.tables.map((table) => table.title).includes(tableTitle))
-        return state;
+        return {
+          ...state,
+          wrongAlert: {
+            ...state.wrongAlert,
+            isShown: true,
+            msg: "There is already a table with that title! Please try again with the new one.",
+          },
+        };
       // returning table with the given title and tasks array
       return {
         ...state,
@@ -173,6 +193,13 @@ function reducer(state, action) {
       } else {
         return state;
       }
+
+    case "newTableSelection":
+      return {
+        ...state,
+        selectedTable: action.payload,
+      };
+
     // delete table
     case "tableDelete":
       // table id
@@ -183,7 +210,10 @@ function reducer(state, action) {
         (table) => table.id !== deleteTableId
       );
 
-      return { ...state, tables: newTables };
+      return {
+        ...state,
+        tables: newTables,
+      };
 
     // add new note to the table
     case "addNote":
@@ -239,6 +269,18 @@ function reducer(state, action) {
       htmlElement.dataset.theme = newMode;
 
       return { ...state, mode: newMode };
+
+    // hiding alert box
+    case "hideAlertBox":
+      return {
+        ...state,
+        wrongAlert: {
+          ...state.wrongAlert,
+          isShown: false,
+          msg: "",
+        },
+      };
+
     default:
       throw new Error("Unkown");
   }
@@ -252,6 +294,7 @@ function TableProvider({ children }) {
       tables,
       isNewTaskOpen,
       isNewTableOpen,
+      wrongAlert,
       selectedTable,
       isTaskSelected,
       currTask,
@@ -259,14 +302,32 @@ function TableProvider({ children }) {
     dispatch,
   ] = useReducer(reducer, savedData);
 
-  // selecting new created table
-  // useEffect(() => {
-  //   dispatch({
-  //     type: "newTableSelection",
-  //     payload: tables[tables.length - 1]?.title,
-  //   });
-  // }, [tables.length]);
+  // selecting last array when length is changed
+  // CHECK IT LATER
+  /* eslint-disable */
+  useEffect(() => {
+    dispatch({
+      type: "newTableSelection",
+      payload: tables[tables.length - 1]?.title,
+    });
+  }, [tables.length]);
+  /* eslint-enable */
 
+  // hide alert window after 3 seconds when it is shown
+  useEffect(() => {
+    if (wrongAlert.isShown) {
+      const timeout = setTimeout(() => {
+        dispatch({
+          type: "hideAlertBox",
+        });
+      }, 3000);
+      return () => {
+        clearTimeout(timeout);
+      };
+    }
+  }, [wrongAlert.isShown]);
+
+  // set color mode
   useEffect(() => {
     dispatch({
       type: "toggleMode",
@@ -282,6 +343,7 @@ function TableProvider({ children }) {
           tables,
           isNewTaskOpen,
           isNewTableOpen,
+          wrongAlert,
           selectedTable,
           isTaskSelected,
           currTask,
@@ -292,6 +354,7 @@ function TableProvider({ children }) {
       tables,
       isNewTaskOpen,
       selectedTable,
+      wrongAlert,
       isNewTableOpen,
       isTaskSelected,
       currTask,
@@ -305,6 +368,7 @@ function TableProvider({ children }) {
         isNewTaskOpen,
         selectedTable,
         isNewTableOpen,
+        wrongAlert,
         isTaskSelected,
         currTask,
         dispatch,

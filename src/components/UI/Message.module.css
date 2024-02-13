@@ -1,13 +1,13 @@
 .startMsg {
   align-self: center;
   margin-top: -4%;
+  text-align: center;
 }
 
 @media (max-width: 968px) {
   .startMsg {
     align-self: center;
     position: relative;
-    text-align: center;
 
     margin-top: 30vw;
   }

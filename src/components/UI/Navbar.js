@@ -4,15 +4,16 @@ import styles from "./Navbar.module.css";
 import Button from "./Button";
 
 export default function NavBar() {
-  const { dispatch } = useTable();
+  const { dispatch, tables } = useTable();
 
   return (
     <nav className={styles["navBar"]}>
       <h2>TableTasks</h2>
       <div className={styles["navButtons"]}>
         <Button
+          disabled={!tables.length > 0}
           onClick={() => dispatch({ type: "newTaskOpen" })}
-          className="addTask"
+          className={!tables.length > 0 ? "addTaskBlocked" : "addTask"}
         >
           +Add New Task
         </Button>

@@ -11,9 +11,11 @@ import AllTablesList from "./Tables/AllTablesList";
 
 import AddNotesForm from "./Forms/AddNotesForm";
 import NotesList from "./Notes/NotesList";
+import AlertBox from "./UI/AlertBox";
 
 function App() {
-  const { isNewTaskOpen, isNewTableOpen, isTaskSelected } = useTable();
+  const { isNewTaskOpen, isNewTableOpen, isTaskSelected, wrongAlert } =
+    useTable();
 
   return (
     <>
@@ -22,6 +24,7 @@ function App() {
         <NavBar />
         <AllTablesList />
         <Table />
+        {wrongAlert.isShown && <AlertBox />}
         {isNewTaskOpen && <AddNewTask />}
         {isNewTableOpen && <AddNewTable />}
         {isTaskSelected && <TaskBox />}
