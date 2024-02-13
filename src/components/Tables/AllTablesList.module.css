@@ -35,7 +35,8 @@
   transition: all ease-in-out 0.15s;
 }
 
-.allTables ul li p:hover {
+.allTables ul li:hover p,
+.allTables ul li:hover button {
   background-color: var(--text);
   color: var(--background);
 }
@@ -47,4 +48,9 @@
 
 .allTables ul li.selected {
   border: solid 2px var(--primary);
+}
+@media (max-width: 968px) {
+  .allTables {
+    padding: 1% 5%;
+  }
 }

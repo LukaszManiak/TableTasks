@@ -35,9 +35,9 @@ As a user you should be able to:
 
 ### Built with
 
-- React.js
+- React.js (createContext, useContext, useEffect, useReducer, useState)
 - HTML5
-- CSS
+- CSS (css modules)
 - JavaScript
 
 ## Author

@@ -166,8 +166,8 @@
 }
 
 .addNote:hover {
-  background-color: var(--accent);
-  color: var(--background);
+  width: 40px;
+  height: 40px;
 }
 
 .deleteNote {
