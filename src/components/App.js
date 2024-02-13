@@ -24,7 +24,7 @@ function App() {
         <NavBar />
         <AllTablesList />
         <Table />
-        {wrongAlert.isShown && <AlertBox />}
+        {wrongAlert?.isShown && <AlertBox />}
         {isNewTaskOpen && <AddNewTask />}
         {isNewTableOpen && <AddNewTable />}
         {isTaskSelected && <TaskBox />}
