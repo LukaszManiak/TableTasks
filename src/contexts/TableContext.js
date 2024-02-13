@@ -315,7 +315,7 @@ function TableProvider({ children }) {
 
   // hide alert window after 3 seconds when it is shown
   useEffect(() => {
-    if (wrongAlert.isShown) {
+    if (wrongAlert?.isShown) {
       const timeout = setTimeout(() => {
         dispatch({
           type: "hideAlertBox",
@@ -325,7 +325,7 @@ function TableProvider({ children }) {
         clearTimeout(timeout);
       };
     }
-  }, [wrongAlert.isShown]);
+  }, [wrongAlert?.isShown]);
 
   // set color mode
   useEffect(() => {
