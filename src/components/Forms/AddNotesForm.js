@@ -21,17 +21,20 @@ function AddNotesForm() {
   }
 
   return (
-    <div className="addNotes">
-      <input
-        onChange={(e) => handleNoteChange(e)}
-        className="noteInput"
-        placeholder="Add note..."
-        value={note}
-      />
-      <Button onClick={() => handleAddNote()} className="addNote">
-        +
-      </Button>
-    </div>
+    <>
+      <h4>Notes ✍🏼</h4>
+      <div className="addNotes">
+        <input
+          onChange={(e) => handleNoteChange(e)}
+          className="noteInput"
+          placeholder="Add note..."
+          value={note}
+        />
+        <Button onClick={() => handleAddNote()} className="addNote">
+          +
+        </Button>
+      </div>
+    </>
   );
 }
 

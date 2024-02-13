@@ -52,13 +52,13 @@ function Table() {
       {selectedTable && (
         <>
           <div className="tableTitleNotes">
-            <h2>{selectedTable}</h2>
+            <h2 className="selectedTitle">{selectedTable}</h2>
 
             <AddNotesForm />
             <NotesList />
           </div>
           <div>
-            <div>TODO ({tables[tableIndex]?.todoTasks?.length || 0})</div>
+            <div>TODO ({tables[tableIndex]?.todoTasks?.length || 0}) 📝</div>
             <div className="tableItems">
               {tables[tableIndex]?.todoTasks?.map((task, i) => (
                 <TableItem task={task} key={i} />
@@ -67,7 +67,7 @@ function Table() {
           </div>
           <div>
             <div>
-              IN PROGRESS ({tables[tableIndex]?.inProgress?.length || 0})
+              IN PROGRESS ({tables[tableIndex]?.inProgress?.length || 0}) 🧗‍♂️
             </div>
             <div className="tableItems">
               {tables[tableIndex]?.inProgress?.map((task, i) => (
@@ -76,7 +76,7 @@ function Table() {
             </div>
           </div>
           <div>
-            <div>DONE ({tables[tableIndex]?.doneTasks?.length || 0})</div>
+            <div>DONE ({tables[tableIndex]?.doneTasks?.length || 0}) 🎉</div>
             <div className="tableItems">
               {tables[tableIndex]?.doneTasks?.map((task, i) => (
                 <TableItem task={task} key={i} />

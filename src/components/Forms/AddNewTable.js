@@ -7,7 +7,7 @@ import Button from "../UI/Button";
 
 export default // add new table modal
 function AddNewTable() {
-  const { dispatch } = useTable();
+  const { dispatch, tables } = useTable();
   // task state
   const [table, setTable] = useState({
     title: "",
@@ -19,29 +19,42 @@ function AddNewTable() {
     doneTasks: [],
   });
 
-  console.log(table);
-  // handling table input clear
+  //  handle new table submit
   function handleTableSubmit() {
-    // add
-    dispatch({ type: "addTable", payload: table });
-    // reset table state
-    setTable({
-      title: "",
-      id: "",
-      notes: [],
-      // table todos
-      todoTasks: [],
-      inProgress: [],
-      doneTasks: [],
-    });
-    // close table modal form
-    dispatch({ type: "newTableOpen" });
+    // checking if the title input is empty
+    if (table.title === "") {
+      dispatch({
+        type: "alertUser",
+        payload:
+          "You cannot add new table without any title! Please try again.",
+      });
+      // checking if there is already a table with the same title
+    } else if (tables.map((table) => table.title).includes(table.title)) {
+      dispatch({
+        type: "alertUser",
+        payload:
+          "There is already a table with that title! Please try again with the new one.",
+      });
+      // adding new table
+    } else {
+      // add
+      dispatch({ type: "addTable", payload: table });
+      // reset table state
+      setTable({
+        title: "",
+        id: "",
+        notes: [],
+        // table todos
+        todoTasks: [],
+        inProgress: [],
+        doneTasks: [],
+      });
+      // close table modal form
+      dispatch({ type: "newTableOpen" });
+    }
   }
   return (
-    <form
-      className={styles.addNewTableModal}
-      onSubmit={() => dispatch({ type: "newTableOpen" })}
-    >
+    <div className={styles.addNewTableModal}>
       <h1>Add New Table</h1>
 
       <label htmlFor="title">Table Title</label>
@@ -55,10 +68,14 @@ function AddNewTable() {
         <Button className="addButton" onClick={() => handleTableSubmit()}>
           Add Table
         </Button>
-        <Button className="closeButton" type="submit">
+        <Button
+          className="closeButton"
+          type="submit"
+          onClick={() => dispatch({ type: "newTableOpen" })}
+        >
           Close
         </Button>
       </div>
-    </form>
+    </div>
   );
 }

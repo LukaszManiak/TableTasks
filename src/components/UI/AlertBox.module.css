@@ -6,12 +6,12 @@
   left: 50%;
   transform: translate(-50%, -90vh);
   background-color: var(--background);
-  color: var(--text);
-  border: solid 2px var(--accent);
+  color: var(--accent);
+  border: solid 4px var(--accent);
   border-radius: 25px;
   padding: 10px 20px;
 
   font-weight: bold;
-  font-size: 1.3rem;
+  font-size: 1.6rem;
   text-align: center;
 }

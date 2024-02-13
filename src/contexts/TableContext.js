@@ -93,26 +93,7 @@ function reducer(state, action) {
     // add table
     case "addTable":
       const tableTitle = action.payload.title;
-      // if the title input is empty return
-      if (tableTitle === "")
-        return {
-          ...state,
-          wrongAlert: {
-            ...state.wrongAlert,
-            isShown: true,
-            msg: "You cannot add new table without any title! Please try again.",
-          },
-        };
-      // if there is already table with the same name return
-      if (state.tables.map((table) => table.title).includes(tableTitle))
-        return {
-          ...state,
-          wrongAlert: {
-            ...state.wrongAlert,
-            isShown: true,
-            msg: "There is already a table with that title! Please try again with the new one.",
-          },
-        };
+
       // returning table with the given title and tasks array
       return {
         ...state,
@@ -270,6 +251,16 @@ function reducer(state, action) {
 
       return { ...state, mode: newMode };
 
+    case "alertUser":
+      return {
+        ...state,
+        wrongAlert: {
+          ...state.wrongAlert,
+          isShown: true,
+          msg: action.payload,
+        },
+      };
+
     // hiding alert box
     case "hideAlertBox":
       return {
@@ -298,6 +289,7 @@ function TableProvider({ children }) {
       selectedTable,
       isTaskSelected,
       currTask,
+      mode,
     },
     dispatch,
   ] = useReducer(reducer, savedData);
@@ -347,6 +339,7 @@ function TableProvider({ children }) {
           selectedTable,
           isTaskSelected,
           currTask,
+          mode,
         })
       );
     },
@@ -358,6 +351,7 @@ function TableProvider({ children }) {
       isNewTableOpen,
       isTaskSelected,
       currTask,
+      mode,
     ]
   );
 
@@ -372,6 +366,7 @@ function TableProvider({ children }) {
         isTaskSelected,
         currTask,
         dispatch,
+        mode,
       }}
     >
       {children}

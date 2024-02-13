@@ -5,8 +5,8 @@ import { useTable } from "../../contexts/TableContext";
 
 import Button from "../UI/Button";
 
-export default // add new task modal
-function AddNewTask() {
+// add new task modal
+export default function AddNewTask() {
   const { dispatch } = useTable();
   // task state
   const [task, setTask] = useState({
@@ -19,6 +19,14 @@ function AddNewTask() {
     type: "",
     id: new Date().getTime(),
   });
+
+  const [isTitleGiven, setIsTitleGiven] = useState(false);
+  const [isTypeGiven, setIsTypeGiven] = useState(false);
+
+  // check if task can be added
+  function canAddTask() {
+    return isTitleGiven && isTypeGiven;
+  }
 
   // setting certain subtask value
   const handleSubValChange = (e, selectedSub) => {
@@ -60,23 +68,35 @@ function AddNewTask() {
     const newSubTasks = task.subtasks.filter(
       (subTask) => subTask.subVal !== ""
     );
-    // add task
-    dispatch({ type: "addTask", payload: { ...task, subtasks: newSubTasks } });
 
-    // reset task state
-    setTask({
-      title: "",
-      description: "",
-      subtasks: [
-        { subVal: "", subId: new Date().getTime() + 1, checkedSub: false },
-        { subVal: "", subId: new Date().getTime() + 2, checkedSub: false },
-      ],
+    if (!canAddTask()) {
+      dispatch({
+        type: "alertUser",
+        payload:
+          "It looks like you did not put the title or did not select the type of the task. Please try again.",
+      });
+    } else {
+      // add task
+      dispatch({
+        type: "addTask",
+        payload: { ...task, subtasks: newSubTasks },
+      });
 
-      type: "",
-      id: "",
-    });
-    // close task modal form
-    dispatch({ type: "newTaskOpen" });
+      // reset task state
+      setTask({
+        title: "",
+        description: "",
+        subtasks: [
+          { subVal: "", subId: new Date().getTime() + 1, checkedSub: false },
+          { subVal: "", subId: new Date().getTime() + 2, checkedSub: false },
+        ],
+
+        type: "",
+        id: "",
+      });
+      // close task modal form
+      dispatch({ type: "newTaskOpen" });
+    }
   }
 
   // console.log(task);
@@ -88,7 +108,10 @@ function AddNewTask() {
         className={styles.taskInput}
         placeholder="Platform setup"
         value={task.title}
-        onChange={(e) => setTask({ ...task, title: e.target.value })}
+        onChange={(e) => {
+          setTask({ ...task, title: e.target.value });
+          setIsTitleGiven(e.target.value !== "");
+        }}
       />
       <h3>Description</h3>
       <textarea
@@ -122,7 +145,10 @@ function AddNewTask() {
       <h5>Status</h5>
       <select
         value={task.type}
-        onChange={(e) => setTask({ ...task, type: e.target.value })}
+        onChange={(e) => {
+          setTask({ ...task, type: e.target.value });
+          setIsTypeGiven(e.target.value !== "");
+        }}
       >
         <option value={""}>Select Option</option>
         <option value={"todo"}>Todo</option>

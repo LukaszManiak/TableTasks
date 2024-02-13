@@ -69,6 +69,18 @@ input {
   border: none;
   box-sizing: border-box;
   border-radius: 15px;
+  color: var(--text);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text);
+}
+
+input:focus,
+textarea:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
 }
 
 .app {
@@ -88,6 +100,10 @@ input {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+}
+
+.selectedTitle {
+  margin-bottom: 30px;
 }
 
 .tableItems {
@@ -186,6 +202,7 @@ input {
   border: solid 2px var(--accent);
   color: var(--text);
 
+  width: 100%;
   padding: 15px;
   border-radius: 15px;
 
