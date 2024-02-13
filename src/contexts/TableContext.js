@@ -16,7 +16,7 @@ const initialState = {
   // task selection
   isTaskSelected: false,
   currTask: null,
-  mode: "light",
+  mode: "dark",
 };
 
 function reducer(state, action) {
