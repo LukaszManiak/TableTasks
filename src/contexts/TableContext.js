@@ -132,6 +132,7 @@ function reducer(state, action) {
         // state.tables[tableToEnter][taskColumnToEnter][0].subtasks
       );
 
+      // something wrong with currTask update
       return {
         ...state,
         tables: state.tables.map((table, i) => {
@@ -151,6 +152,10 @@ function reducer(state, action) {
           }
           return table;
         }),
+        currTask: {
+          ...state.currTask,
+          subtasks: updatedSubTasks,
+        },
       };
 
     // add table
