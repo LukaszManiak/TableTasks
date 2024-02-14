@@ -93,11 +93,11 @@ function TaskBox() {
   const { currTask, dispatch } = useTable();
 
   // handle checked task change
-  function handleCheckedChange(id) {
-    console.log(currTask, id);
+  function handleCheckedChange(id, checked) {
+    console.log(currTask, id, checked);
     dispatch({
       type: "subtaskUpdate",
-      payload: { taskId: currTask.id, subtaskId: id },
+      payload: { taskToEnter: currTask.id, subToChangeId: id },
     });
   }
 
@@ -112,19 +112,6 @@ function TaskBox() {
     });
   }
 
-  // function handleTypeChange(e) {
-  //   e.preventDefault();
-
-  //   dispatch({
-  //     type: "updateTaskType",
-  //     payload: {
-  //       taskId: currTask.id,
-  //       taskType: currTask.type,
-  //       newType: e.target.value,
-  //     },
-  //   });
-  // }
-
   return (
     <div className="taskBox">
       <h2>{currTask.title}</h2>
@@ -138,8 +125,12 @@ function TaskBox() {
       {currTask.subtasks?.map((subTask) => (
         <div className="subTaskBox" key={subTask.subId}>
           <input
-            onChange={() => handleCheckedChange(subTask.subId)}
+            onChange={() =>
+              handleCheckedChange(subTask.subId, subTask.checkedSub)
+            }
             type="checkbox"
+            // set checked
+            checked={subTask.subChecked}
           />{" "}
           <p>{subTask.subVal}</p>
         </div>

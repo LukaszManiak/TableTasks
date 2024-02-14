@@ -86,9 +86,72 @@ function reducer(state, action) {
         return state;
       }
 
-    // update task type
-    // case "updateTaskType":
-    //   const { taskId, taskType, newType } = action.payload;
+    // subtask update
+    case "subtaskUpdate":
+      const { taskToEnter, subToChangeId } = action.payload;
+      const tableToEnter = state.tables
+        .map((table) => table.title)
+        .indexOf(state.selectedTable);
+
+      let taskColumnToEnter;
+      switch (state.currTask.type) {
+        case "done":
+          taskColumnToEnter = "doneTasks";
+          break;
+        case "todo":
+          taskColumnToEnter = "todoTasks";
+          break;
+        case "inprogress":
+          taskColumnToEnter = "inProgress";
+          break;
+        default:
+          return;
+      }
+      const subtasksToChange = state.tables[tableToEnter][
+        taskColumnToEnter
+      ].filter((task) => task.id === taskToEnter)[0].subtasks;
+
+      const updatedSubTasks = subtasksToChange.map((sub) => {
+        if (sub.subId === subToChangeId) {
+          return { ...sub, checkedSub: !sub.checkedSub };
+        } else {
+          return sub;
+        }
+      });
+
+      console.log(
+        updatedSubTasks,
+        state.currTask
+        // subtasksToChange,
+        // state.currTask.type,
+        // state.tables,
+        // tableToEnter,
+        // subToChangeId,
+        // taskColumnToEnter,
+
+        // state.tables[tableToEnter][taskColumnToEnter][0].subtasks
+      );
+
+      return {
+        ...state,
+        tables: state.tables.map((table, i) => {
+          if (i === tableToEnter) {
+            return {
+              ...table,
+              [taskColumnToEnter]: table[taskColumnToEnter].map((task) => {
+                if (task.id === taskToEnter) {
+                  return {
+                    ...task,
+                    subtasks: updatedSubTasks,
+                  };
+                }
+                return task;
+              }),
+            };
+          }
+          return table;
+        }),
+      };
 
     // add table
     case "addTable":
