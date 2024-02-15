@@ -160,7 +160,7 @@ textarea:focus {
   align-items: center;
   justify-content: space-between;
 
-  background-color: #061518d7;
+  background-color: var(--secondary);
 }
 .subTaskBox input {
   width: 20%;

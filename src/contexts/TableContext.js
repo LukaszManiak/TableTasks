@@ -86,31 +86,58 @@ function reducer(state, action) {
         return state;
       }
 
+    // update task type
+    case "taskTypeUpdate":
+      const { taskToChangeType, newType } = action.payload;
+
+      const tableToUpdate = state.tables
+        .map((table) => table.title)
+        .indexOf(state.selectedTable);
+
+      // finding currTusk type
+      let taskColumn = setTaskColumnType(state.currTask.type);
+
+      // column where to push task
+      let newTaskColumn = setTaskColumnType(newType);
+      console.log(taskToChangeType, newType, state.tables[tableToUpdate]);
+
+      return {
+        ...state,
+        tables: state.tables.map((table, i) => {
+          if (i === tableToUpdate) {
+            return {
+              ...table,
+              [taskColumn]: table[taskColumn].filter(
+                (task) => task.id !== taskToChangeType
+              ),
+              [newTaskColumn]: [...table[newTaskColumn], { ...state.currTask }],
+            };
+          }
+          return table;
+        }),
+        currTask: {
+          ...state.currTask,
+          type: newType,
+        },
+      };
+
     // subtask update
     case "subtaskUpdate":
       const { taskToEnter, subToChangeId } = action.payload;
+
       const tableToEnter = state.tables
         .map((table) => table.title)
         .indexOf(state.selectedTable);
 
-      let taskColumnToEnter;
-      switch (state.currTask.type) {
-        case "done":
-          taskColumnToEnter = "doneTasks";
-          break;
-        case "todo":
-          taskColumnToEnter = "todoTasks";
-          break;
-        case "inprogress":
-          taskColumnToEnter = "inProgress";
-          break;
-        default:
-          return;
-      }
+      // finding currTusk type
+      let taskColumnToEnter = setTaskColumnType(state.currTask.type);
+
+      // subtasks array to update
       const subtasksToChange = state.tables[tableToEnter][
         taskColumnToEnter
       ].filter((task) => task.id === taskToEnter)[0].subtasks;
 
+      // updating value of certain subtask
       const updatedSubTasks = subtasksToChange.map((sub) => {
         if (sub.subId === subToChangeId) {
           return { ...sub, checkedSub: !sub.checkedSub };
@@ -119,20 +146,35 @@ function reducer(state, action) {
         }
       });
 
-      console.log(
-        updatedSubTasks,
-        state.currTask
-        // subtasksToChange,
-        // state.currTask.type,
-        // state.tables,
-        // tableToEnter,
-        // subToChangeId,
-        // taskColumnToEnter,
+      // checked subtasks
+      const checkedSubtasks = updatedSubTasks.filter(
+        (sub) => sub.checkedSub === true
+      ).length;
 
-        // state.tables[tableToEnter][taskColumnToEnter][0].subtasks
-      );
+      // checking in what stage is our task
+      let taskColumnToChange;
+      if (checkedSubtasks === updatedSubTasks.length) {
+        taskColumnToChange = "doneTasks";
+      } else if (checkedSubtasks === 0) {
+        taskColumnToChange = "todoTasks";
+      } else if (
+        checkedSubtasks > 0 &&
+        checkedSubtasks < updatedSubTasks.length
+      ) {
+        taskColumnToChange = "inProgress";
+      } else {
+        return;
+      }
 
-      // something wrong with currTask update
+      console.log(taskColumnToChange);
+
+      // console.log(
+      //   "case log",
+      //   updatedSubTasks,
+      //   state.currTask,
+      //   checkedSubtasks
+      // );
+
       return {
         ...state,
         tables: state.tables.map((table, i) => {
@@ -143,6 +185,7 @@ function reducer(state, action) {
                 if (task.id === taskToEnter) {
                   return {
                     ...task,
+                    // type: taskColumnToChange,
                     subtasks: updatedSubTasks,
                   };
                 }
@@ -154,6 +197,7 @@ function reducer(state, action) {
         }),
         currTask: {
           ...state.currTask,
+          // type: taskColumnToChange,
           subtasks: updatedSubTasks,
         },
       };
@@ -341,7 +385,7 @@ function reducer(state, action) {
       };
 
     default:
-      throw new Error("Unkown");
+      throw new Error("Unkown error");
   }
 }
 
@@ -440,6 +484,22 @@ function TableProvider({ children }) {
       {children}
     </TableContext.Provider>
   );
+}
+
+// helper functions
+
+// set
+function setTaskColumnType(string) {
+  switch (string) {
+    case "done":
+      return "doneTasks";
+    case "todo":
+      return "todoTasks";
+    case "inprogress":
+      return "inProgress";
+    default:
+      throw new Error(`Unknown task type: ${string}`);
+  }
 }
 
 function useTable() {
