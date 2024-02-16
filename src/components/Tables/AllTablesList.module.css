@@ -1,6 +1,6 @@
 .allTables {
   height: auto;
-  padding: 1% 10%;
+  padding: 1% 5%;
 
   display: flex;
   flex-direction: column;
@@ -48,9 +48,4 @@
 
 .allTables ul li.selected {
   border: solid 2px var(--primary);
-}
-@media (max-width: 968px) {
-  .allTables {
-    padding: 1% 5%;
-  }
 }

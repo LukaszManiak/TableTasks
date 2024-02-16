@@ -1,18 +1,19 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&display=swap");
 
 :root[data-theme="light"] {
-  --text: #081c21;
-  --background: #e7f6f9;
-  --primary: #1d6777;
-  --secondary: #848fe1;
-  --accent: #3b2db9;
+  --text: #201f04;
+  --background: #fdfdf2;
+  --primary: #e3d72b;
+  --secondary: #77adee;
+  --accent: #935dea;
 }
 :root[data-theme="dark"] {
-  --text: #def2f7;
-  --background: #061518;
-  --primary: #88d2e2;
-  --secondary: #1e297b;
-  --accent: #5446d2;
+  --text: #fbfadf;
+  --text2: #fbfadf;
+  --background: #0d0d02;
+  --primary: #d4c81c;
+  --secondary: #114788;
+  --accent: #4b15a2;
 }
 
 html,
@@ -95,7 +96,7 @@ textarea:focus {
   width: 80%;
   height: 90%;
 
-  padding: 0 10%;
+  padding: 0 5%;
 
   display: flex;
   align-items: flex-start;
@@ -163,7 +164,13 @@ textarea:focus {
   background-color: var(--secondary);
 }
 .subTaskBox input {
-  width: 20%;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--primary);
+  border-radius: 10px;
+  background-color: var(--primary);
+  /* Dodatkowy styl przy najechaniu myszką */
+  cursor: pointer;
 }
 
 .subTaskBox p {

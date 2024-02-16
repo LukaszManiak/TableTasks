@@ -110,7 +110,10 @@ function reducer(state, action) {
               [taskColumn]: table[taskColumn].filter(
                 (task) => task.id !== taskToChangeType
               ),
-              [newTaskColumn]: [...table[newTaskColumn], { ...state.currTask }],
+              [newTaskColumn]: [
+                ...table[newTaskColumn],
+                { ...state.currTask, type: newType },
+              ],
             };
           }
           return table;
@@ -153,27 +156,24 @@ function reducer(state, action) {
 
       // checking in what stage is our task
       let taskColumnToChange;
+      let typeOfNewTask;
       if (checkedSubtasks === updatedSubTasks.length) {
         taskColumnToChange = "doneTasks";
+        typeOfNewTask = "done";
       } else if (checkedSubtasks === 0) {
         taskColumnToChange = "todoTasks";
+        typeOfNewTask = "todo";
       } else if (
         checkedSubtasks > 0 &&
         checkedSubtasks < updatedSubTasks.length
       ) {
         taskColumnToChange = "inProgress";
+        typeOfNewTask = "inprogress";
       } else {
         return;
       }
 
       console.log(taskColumnToChange);
-
-      // console.log(
-      //   "case log",
-      //   updatedSubTasks,
-      //   state.currTask,
-      //   checkedSubtasks
-      // );
 
       return {
         ...state,
@@ -181,23 +181,26 @@ function reducer(state, action) {
           if (i === tableToEnter) {
             return {
               ...table,
-              [taskColumnToEnter]: table[taskColumnToEnter].map((task) => {
-                if (task.id === taskToEnter) {
-                  return {
-                    ...task,
-                    // type: taskColumnToChange,
-                    subtasks: updatedSubTasks,
-                  };
-                }
-                return task;
-              }),
+              [taskColumnToEnter]: table[taskColumnToEnter].filter(
+                (task) => task.id !== taskToEnter
+              ),
+              [taskColumnToChange]: [
+                ...table[taskColumnToEnter].filter(
+                  (task) => task.id !== taskToEnter
+                ),
+                {
+                  ...state.currTask,
+                  type: typeOfNewTask,
+                  subtasks: updatedSubTasks,
+                },
+              ],
             };
           }
           return table;
         }),
         currTask: {
           ...state.currTask,
-          // type: taskColumnToChange,
+          type: typeOfNewTask,
           subtasks: updatedSubTasks,
         },
       };

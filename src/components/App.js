@@ -103,13 +103,8 @@ function TaskBox() {
   // handle task type change
   function handleTypeChange(e) {
     e.preventDefault();
-    // dispatch({ type: "taskDelete", payload: currTask });
-    // dispatch({
-    //   type: "addTask",
-    //   payload: { ...currTask, type: e.target.value },
-    // });
 
-    // updated version (with small bug(currTask.type))
+    // updated version
     dispatch({
       type: "taskTypeUpdate",
       payload: { taskToChangeType: currTask.id, newType: e.target.value },
