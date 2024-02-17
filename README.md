@@ -1,4 +1,4 @@
-# TableTasks - Advanced Todo Application (not finished yet)
+# TableTasks - Advanced Todo Application
 
 ## Welcome! 👋
 
