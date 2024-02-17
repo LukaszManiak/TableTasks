@@ -48,7 +48,9 @@ function TaskModal() {
             // set checked
             checked={subTask.checkedSub}
           />{" "}
-          <p>{subTask.subVal}</p>
+          <p className={subTask.checkedSub ? styles.subDone : ""}>
+            {subTask.subVal}
+          </p>
         </div>
       ))}
 

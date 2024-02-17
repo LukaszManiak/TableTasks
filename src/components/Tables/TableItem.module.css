@@ -1,5 +1,5 @@
 .tableItem {
-  width: 100%;
+  width: 80%;
   padding: 15px 30px;
   border: solid 2px var(--text);
   box-shadow: 0px 3px 0px 2px var(--text);

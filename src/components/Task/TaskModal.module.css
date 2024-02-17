@@ -54,6 +54,11 @@
   opacity: 1;
 }
 
+.subTaskBox .subDone {
+  text-decoration: line-through;
+  opacity: 0.8;
+}
+
 @media (max-width: 968px) {
   .taskBox {
     width: 250px;
