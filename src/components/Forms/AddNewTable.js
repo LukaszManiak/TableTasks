@@ -57,7 +57,7 @@ function AddNewTable() {
     <div className={styles.addNewTableModal}>
       <h1>Add New Table</h1>
 
-      <label htmlFor="title">Table Title</label>
+      <p>Table Title</p>
       <input
         className={styles.input}
         placeholder="Store website things"

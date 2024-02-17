@@ -29,7 +29,6 @@ html {
 
 /* transition: all ease-in-out 0.25s; */
 body {
-  /* overflow: hidden; */
   color: var(--text);
   font-weight: 400;
 }
@@ -44,23 +43,23 @@ h5 {
 }
 
 h1 {
-  font-size: 3.366rem; /* 53.92px */
+  font-size: 3.366rem;
 }
 
 h2 {
-  font-size: 2.525rem; /* 40.32px */
+  font-size: 2.525rem;
 }
 
 h3 {
-  font-size: 1.894rem; /* 30.24px */
+  font-size: 1.894rem;
 }
 
 h4 {
-  font-size: 1.421rem; /* 22.72px */
+  font-size: 1.421rem;
 }
 
 h5 {
-  font-size: 1.066rem; /* 17.12px */
+  font-size: 1.066rem;
 }
 
 input {
@@ -91,54 +90,8 @@ textarea:focus {
   height: 100vh;
 }
 
-.table {
-  background-color: var(--veryDarkBlue);
-  width: 80%;
-  height: 90%;
-
-  padding: 0 5%;
-
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-}
-
-.selectedTitle {
-  margin-bottom: 30px;
-}
-
-.tableItems {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.taskBox {
-  width: 400px;
-  height: auto;
-  padding: 3rem;
-  background-color: var(--background);
-  border-radius: 25px;
-
-  transition: all ease-in-out 0.15s;
-
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 10;
-
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
-}
-
-.taskBox p {
-  width: 100%;
-  word-wrap: break-word;
-  opacity: 0.8;
+.hidden {
+  display: none;
 }
 
 .buttonsContainer {
@@ -146,86 +99,6 @@ textarea:focus {
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
-
-.hidden {
-  display: none;
-}
-
-.subTaskBox {
-  width: 95%;
-  padding: 2.5%;
-  border-radius: 5px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  background-color: var(--secondary);
-}
-.subTaskBox input {
-  width: 20px;
-  height: 20px;
-  border: 2px solid var(--primary);
-  border-radius: 10px;
-  background-color: var(--primary);
-  /* Dodatkowy styl przy najechaniu myszką */
-  cursor: pointer;
-}
-
-.subTaskBox p {
-  width: 70%;
-  color: var(--text);
-  padding: 10px 20px;
-  border-radius: 15px;
-  opacity: 1;
-}
-
-.tableTitleNotes {
-  display: flex;
-  flex-direction: column;
-  width: 30%;
-}
-
-.addNotes {
-  display: flex;
-  align-items: center;
-  gap: 30px;
-
-  width: 100%;
-}
-
-.addNotes input {
-  width: 80%;
-}
-.notesBox {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-  width: 100%;
-}
-.note {
-  background-color: var(--background);
-  border: solid 2px var(--accent);
-  color: var(--text);
-
-  width: 100%;
-  padding: 15px;
-  border-radius: 15px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  text-wrap: wrap;
-}
-
-.noteInput {
-  border: solid 2px var(--accent);
-}
-
-.note p {
-  width: 80%;
 }
 
 select {
@@ -291,41 +164,5 @@ select option {
 @media (max-width: 968px) {
   html {
     font-size: 64.4%;
-  }
-
-  .allTables {
-    padding: 3% 5% 3% 5%;
-    padding-bottom: 20px;
-    height: auto;
-  }
-  .table {
-    padding: 5%;
-    width: 90%;
-
-    flex-direction: column;
-    justify-content: flex-start;
-    gap: 20px;
-  }
-
-  .tableItems {
-    flex-direction: row;
-    flex-wrap: wrap;
-    width: 100%;
-  }
-
-  .tableTitleNotes {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .notesBox {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 15px;
-  }
-
-  .taskBox {
-    width: 250px;
   }
 }

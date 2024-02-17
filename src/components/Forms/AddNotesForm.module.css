@@ -1,0 +1,15 @@
+.addNotes {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+
+  width: 100%;
+}
+
+.addNotes input {
+  width: 80%;
+}
+
+.noteInput {
+  border: solid 2px var(--accent);
+}

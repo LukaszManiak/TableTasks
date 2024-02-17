@@ -1,0 +1,14 @@
+.notesBox {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 100%;
+}
+
+@media (max-width: 968px) {
+  .notesBox {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+}

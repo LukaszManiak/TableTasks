@@ -1,0 +1,35 @@
+li {
+  margin-right: 10px;
+  cursor: pointer;
+  text-align: center;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 5px;
+
+  border: solid 2px var(--text);
+  border-radius: 15px;
+  transition: all ease-in-out 0.15s;
+}
+li p {
+  padding: 10px 30px;
+  border-radius: 15px;
+  transition: all ease-in-out 0.15s;
+}
+
+ul li:hover p,
+ul li:hover button {
+  background-color: var(--text);
+  color: var(--background);
+}
+li.selected p,
+li.selected button {
+  background-color: var(--primary);
+  color: var(--background);
+}
+
+li.selected {
+  border: solid 2px var(--primary);
+}

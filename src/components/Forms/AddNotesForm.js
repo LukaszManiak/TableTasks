@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useTable } from "../../contexts/TableContext";
 import Button from "../UI/Button";
 
+import styles from "./AddNotesForm.module.css";
+
 function AddNotesForm() {
   const { dispatch } = useTable();
 
@@ -23,10 +25,10 @@ function AddNotesForm() {
   return (
     <>
       <h4>Notes ✍🏼</h4>
-      <div className="addNotes">
+      <div className={styles.addNotes}>
         <input
           onChange={(e) => handleNoteChange(e)}
-          className="noteInput"
+          className={styles.noteInput}
           placeholder="Add note..."
           value={note}
         />

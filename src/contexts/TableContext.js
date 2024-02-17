@@ -99,7 +99,6 @@ function reducer(state, action) {
 
       // column where to push task
       let newTaskColumn = setTaskColumnType(newType);
-      console.log(taskToChangeType, newType, state.tables[tableToUpdate]);
 
       return {
         ...state,
@@ -172,8 +171,6 @@ function reducer(state, action) {
       } else {
         return;
       }
-
-      console.log(taskColumnToChange);
 
       return {
         ...state,
@@ -300,7 +297,7 @@ function reducer(state, action) {
     case "tableDelete":
       // table id
       const deleteTableId = action.payload;
-      console.log(action.payload);
+
       // filtered tables
       const newTables = state.tables.filter(
         (table) => table.id !== deleteTableId

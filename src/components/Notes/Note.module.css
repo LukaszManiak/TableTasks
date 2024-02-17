@@ -1,0 +1,19 @@
+.note {
+  background-color: var(--background);
+  border: solid 2px var(--accent);
+  color: var(--text);
+
+  width: 100%;
+  padding: 15px;
+  border-radius: 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  text-wrap: wrap;
+}
+
+.note p {
+  width: 80%;
+}

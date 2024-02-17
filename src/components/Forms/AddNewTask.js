@@ -99,7 +99,7 @@ export default function AddNewTask() {
     }
   }
 
-  // console.log(task);
+
   return (
     <div className={styles["addNewTaskModal"]}>
       <h1>Add New Task</h1>
