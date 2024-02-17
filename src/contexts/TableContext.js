@@ -182,7 +182,7 @@ function reducer(state, action) {
                 (task) => task.id !== taskToEnter
               ),
               [taskColumnToChange]: [
-                ...table[taskColumnToEnter].filter(
+                ...table[taskColumnToChange].filter(
                   (task) => task.id !== taskToEnter
                 ),
                 {
