@@ -29,7 +29,7 @@ function Table() {
           </div>
           <div>
             <div>TODO ({tables[tableIndex]?.todoTasks?.length || 0}) 📝</div>
-            <div className={styles.tablesItems}>
+            <div className={styles.tableItems}>
               {tables[tableIndex]?.todoTasks?.map((task, i) => (
                 <TableItem task={task} key={i} />
               ))}
@@ -39,7 +39,7 @@ function Table() {
             <div>
               IN PROGRESS ({tables[tableIndex]?.inProgress?.length || 0}) 🧗‍♂️
             </div>
-            <div className={styles.tablesItems}>
+            <div className={styles.tableItems}>
               {tables[tableIndex]?.inProgress?.map((task, i) => (
                 <TableItem task={task} key={i} />
               ))}
@@ -47,7 +47,7 @@ function Table() {
           </div>
           <div>
             <div>DONE ({tables[tableIndex]?.doneTasks?.length || 0}) 🎉</div>
-            <div className={styles.tablesItems}>
+            <div className={styles.tableItems}>
               {tables[tableIndex]?.doneTasks?.map((task, i) => (
                 <TableItem task={task} key={i} />
               ))}

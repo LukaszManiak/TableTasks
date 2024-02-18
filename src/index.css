@@ -161,7 +161,7 @@ select option {
   }
 }
 
-@media (max-width: 968px) {
+@media (max-width: 768px) {
   html {
     font-size: 64.4%;
   }
