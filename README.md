@@ -4,6 +4,8 @@
 
 TableTasks is a feature-rich todo application that empowers users with a wide range of functionalities to manage their tasks efficiently. The application is designed to be user-friendly, allowing users to customize their task management experience seamlessly.
 
+## Live Site URL: [Netlify](https://tabletasks.netlify.app/)
+
 ## Table of contents
 
 - [Overview](#overview)
@@ -18,7 +20,6 @@ TableTasks is a feature-rich todo application that empowers users with a wide ra
 ### Links
 
 - Solution URL: [GitHub](https://github.com/LukaszManiak/TableTasks)
-- Live Site URL: [Netlify](https://tabletasks.netlify.app/)
 
 ### The challenge
 
