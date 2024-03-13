@@ -6,7 +6,7 @@ TableTasks is a feature-rich todo application that empowers users with a wide ra
 
 ## Goal
 
-TaskTables was developed with a singular focus: to empower individuals in effectively managing their tasks and projects. As a feature-rich todo application, it goes beyond the basic functionalities, aiming to provide a comprehensive solution for organizing and tracking tasks.
+TableTasks was developed with a singular focus: to empower individuals in effectively managing their tasks and projects. As a feature-rich todo application, it goes beyond the basic functionalities, aiming to provide a comprehensive solution for organizing and tracking tasks.
 
 ## Live Site URL: [Netlify](https://tabletasks.netlify.app/)
 
