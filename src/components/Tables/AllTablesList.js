@@ -11,7 +11,7 @@ function AllTablesList() {
       <p>ALL TABLES ({tables?.length})</p>
       <ul>
         {tables.map((table, i) => (
-          <TableListItem key={i} table={table} i={i} />
+          <TableListItem key={table.id} table={table} i={i} />
         ))}
       </ul>
       <Button
